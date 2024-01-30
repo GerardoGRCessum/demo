@@ -15,9 +15,9 @@ public class StudentConfig {
             StudentRepository repository){
         return arg -> {
             new Student(1L,
-                    "mar",
-                    "email", LocalDate.of(
-                    2000, Month.JANUARY, 21));
+                    "pepito",
+                    "Pepitoemail", LocalDate.of(
+                    1998, Month.APRIL, 22));
         };
     }
 }
