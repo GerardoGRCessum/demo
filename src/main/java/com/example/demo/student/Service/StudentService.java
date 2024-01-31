@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import static java.lang.StringTemplate.STR;
-
 @Service
 public class StudentService {
 
@@ -22,14 +20,14 @@ public class StudentService {
         this.studentRepository = sr;
     }
 
-    public List<Student> getStudents(){
+    public List<Student> getStudents() {
         return studentRepository.findAll();
     }
 
     public void addNewStudent(Student student) {
         Optional<Student> studentOptional = studentRepository
                 .findStudentByEmail(student.getEmail());
-        if (studentOptional.isPresent()){
+        if (studentOptional.isPresent()) {
             throw new IllegalStateException("email taken");
         }
         studentRepository.save(student);
@@ -44,18 +42,27 @@ public class StudentService {
     }
 
     @Transactional
-    public Student updateStudent(Long studentId, String studentName, String studentEmail){
+    public Student updateStudent(Long studentId, String studentName, String studentEmail) {
 
-        boolean exist = studentRepository.existsById(studentId);
-        if (!exist) {
-           //String msg = STR."student with \{ studentId } not found.";
-            throw new IllegalStateException("student with id " + studentId + " does not exist");
+        //Checar si el usuario existe
+        Student student = studentRepository.findById(studentId).orElseThrow(() ->
+                new IllegalStateException("NO SE ENCONTRO"));
+
+        if (studentName != null &&
+                studentName.isEmpty() &&
+                !studentName.equals(student.getName())) {
+            student.setName(studentName);
         }
-        Optional<Student> dummy = studentRepository.findById(studentId);
+        if (studentEmail != null &&
+                studentEmail.isEmpty()
+                ) {
+            Optional<Student> sOptional = studentRepository.findStudentByEmail(studentEmail);
+            if (sOptional.isPresent()) {
+                throw new IllegalStateException("email taken");
+            }
+            student.setEmail(studentEmail);
+        }
+        return studentRepository.save(student);
 
-
-
-
-        return null;
     }
 }
