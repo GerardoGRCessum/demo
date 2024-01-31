@@ -1,13 +1,14 @@
-package com.example.demo.student;
+package com.example.demo.student.Controller;
 
+import com.example.demo.student.Entity.Student;
+import com.example.demo.student.Service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
 @RequestMapping(path = "api/v1/student")
 public class StudentController {
     private final StudentService studentService;
@@ -25,5 +26,10 @@ public class StudentController {
     @PostMapping
     public void registerNewStudent(@RequestBody Student student){
         studentService.addNewStudent(student);
+    }
+
+    @DeleteMapping(path = "{studentId}")
+    public void deleteStudent(@PathVariable("studentId") Long studentId){
+        studentService.deleteStudent(studentId);
     }
 }
