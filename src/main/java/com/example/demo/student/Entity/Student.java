@@ -22,6 +22,7 @@ public class Student {
     private Long id;
     private String name;
     private String email;
+    private String password;
     private LocalDate dot;
 
     @Transient
@@ -30,16 +31,18 @@ public class Student {
     public Student() {
     }
 
-    public Student(Long id, String name, String email, LocalDate dot) {
+    public Student(Long id, String name, String email, String pwd,LocalDate dot) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.password = pwd;
         this.dot = dot;
     }
 
-    public Student(String name, String email, LocalDate dot) {
+    public Student(String name, String email, String pwd,LocalDate dot) {
         this.name = name;
         this.email = email;
+        this.password = pwd;
         this.dot = dot;
     }
 
@@ -67,6 +70,14 @@ public class Student {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public LocalDate getDot() {
         return dot;
     }
@@ -89,6 +100,7 @@ public class Student {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
                 ", dot=" + dot +
                 ", age=" + age +
                 '}';

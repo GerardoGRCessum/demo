@@ -19,7 +19,7 @@ public class StudentConfig {
         return arg -> {
             Student gar = new Student(1L,
                     "gar",
-                    "garmail", LocalDate.of(
+                    "garmail","0705" ,LocalDate.of(
                     1998, Month.APRIL, 22));
 
             repository.saveAll(
