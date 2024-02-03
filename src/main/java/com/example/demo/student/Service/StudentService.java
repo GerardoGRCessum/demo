@@ -4,7 +4,6 @@ import com.example.demo.student.Entity.Student;
 import com.example.demo.student.Repository.StudentRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +22,13 @@ public class StudentService {
     public List<Student> getStudents() {
         return studentRepository.findAll();
     }
+
+    /*public Optional<Student> getStudentById(String studentName){
+        long id = studentRepository.findBy()
+
+        return studentRepository.findById(studentName);
+    }*/
+    public Optional<Student> getIdByName()
 
     public void addNewStudent(Student student) {
         Optional<Student> studentOptional = studentRepository

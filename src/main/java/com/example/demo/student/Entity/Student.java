@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Set;
 
 @Entity
 @Table
@@ -24,26 +25,28 @@ public class Student {
     private String email;
     private String password;
     private LocalDate dot;
-
+    private Set rol;
     @Transient
     private Integer age;
 
     public Student() {
     }
 
-    public Student(Long id, String name, String email, String pwd,LocalDate dot) {
+    public Student(Long id, String name, String email, String pwd,LocalDate dot, Set<String> roles) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = pwd;
         this.dot = dot;
+        this.rol = roles;
     }
 
-    public Student(String name, String email, String pwd,LocalDate dot) {
+    public Student(String name, String email, String pwd,LocalDate dot, Set<String> roles) {
         this.name = name;
         this.email = email;
         this.password = pwd;
         this.dot = dot;
+        this.rol = roles;
     }
 
     public Long getId() {
@@ -86,6 +89,14 @@ public class Student {
         this.dot = dot;
     }
 
+    public Set getRol() {
+        return rol;
+    }
+
+    public void setRol(Set rol) {
+        this.rol = rol;
+    }
+
     public Integer getAge() {
         return Period.between(this.dot, LocalDate.now()).getYears();
     }
@@ -102,6 +113,7 @@ public class Student {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", dot=" + dot +
+                ", rol=" + rol +
                 ", age=" + age +
                 '}';
     }

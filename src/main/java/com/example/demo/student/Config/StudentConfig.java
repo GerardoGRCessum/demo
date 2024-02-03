@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
+import java.util.Set;
 
 @Configuration
 public class StudentConfig {
@@ -20,7 +21,8 @@ public class StudentConfig {
             Student gar = new Student(1L,
                     "gar",
                     "garmail","0705" ,LocalDate.of(
-                    1998, Month.APRIL, 22));
+                    1998, Month.APRIL, 22),
+                    Set.of("USER"));
 
             repository.saveAll(
                     List.of(gar)
