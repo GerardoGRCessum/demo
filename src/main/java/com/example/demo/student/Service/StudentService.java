@@ -28,8 +28,6 @@ public class StudentService {
 
         return studentRepository.findById(studentName);
     }*/
-    public Optional<Student> getIdByName()
-
     public void addNewStudent(Student student) {
         Optional<Student> studentOptional = studentRepository
                 .findStudentByEmail(student.getEmail());
