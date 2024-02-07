@@ -1,7 +1,6 @@
 package com.example.demo.student.Config;
 
 import com.example.demo.student.Repository.StudentRepository;
-import com.mysql.cj.protocol.AuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,11 +25,11 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public DaoAuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService());//que provider utilizar
         authProvider.setPasswordEncoder(passwordEncoder());//encodizador de contraseñas
-        return (AuthenticationProvider) authProvider;
+        return authProvider;
     }
 
     @Bean
