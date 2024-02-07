@@ -9,9 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
-import java.util.Set;
 
-@Configuration
 public class StudentConfig {
 
     @Bean

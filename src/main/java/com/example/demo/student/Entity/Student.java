@@ -1,14 +1,24 @@
 package com.example.demo.student.Entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table
-public class Student {
+@Builder
+@AllArgsConstructor
+public class Student implements UserDetails {
 
     @Id
     @SequenceGenerator(
@@ -24,6 +34,9 @@ public class Student {
     private String name;
     private String email;
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
     private LocalDate dot;
     @Transient
     private Integer age;
@@ -44,6 +57,14 @@ public class Student {
         this.email = email;
         this.password = pwd;
         this.dot = dot;
+    }
+
+    //Constructor para autentificación
+    public Student(String name, String email, String password, Role role) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.role = role;
     }
 
     public Long getId() {
@@ -70,12 +91,42 @@ public class Student {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    @Override
+    public String getPassword() {
+        return password;
     }
 
     public LocalDate getDot() {
