@@ -14,8 +14,8 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-
-    private static final String SECRET_KEY = "953cb951-a0e7-4fc6-8c0e-51d6ef9afa20";
+//original clave 953cb951-a0e7-4fc6-8c0e-51d6ef9afa20
+    private static final String SECRET_KEY = "7a6b6c79394a7141576e6853556973624f44654c4f7478313162413538584430";
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
@@ -31,12 +31,12 @@ public class JwtService {
     }
 
     public String generateToken(
-            Map<String, Object> extractClaims,
+            Map<String, Object> extraClaims,
             UserDetails userDetails
     ){
         return Jwts
                 .builder()
-                .setClaims(extractClaims)
+                .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
