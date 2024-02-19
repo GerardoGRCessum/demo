@@ -1,71 +1,70 @@
 package com.example.demo.student.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
-@Table
-@Builder
+@Table(name = "user")
 @AllArgsConstructor
-public class Student implements UserDetails {
+public class Student {
 
     @Id
-    @SequenceGenerator(
-            name = "student_sequence",
-            sequenceName = "student_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "student_sequence"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+
+    @Column(unique = true)
+    @NotBlank
+    @Size(min = 4, max = 45)
+    private String username;
     private String email;
+
+    @NotBlank
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // no mostrar dato en json GET
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+
+    @JsonIgnoreProperties({"users", "handler", "hibernateLazyInitializer"})
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"),
+            uniqueConstraints = { @UniqueConstraint(columnNames =
+                    {"user_id", "role_id"})}
+    )
+    private List<Role> roles;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private boolean enable;
+
+    @PrePersist
+    public void prePersist(){
+        enable = true;
+    }
+
+    @Transient
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private boolean admin;
+
+
     private LocalDate dot;
     @Transient
     private Integer age;
 
+
+
     public Student() {
+        roles = new ArrayList<>();
     }
 
-    public Student(Long id, String name, String email, String pwd,LocalDate dot) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = pwd;
-        this.dot = dot;
-    }
-
-    public Student(String name, String email, String pwd,LocalDate dot) {
-        this.name = name;
-        this.email = email;
-        this.password = pwd;
-        this.dot = dot;
-    }
-
-    //Constructor para autentificación
-    public Student(String name, String email, String password, Role role) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
 
     public Long getId() {
         return id;
@@ -75,12 +74,12 @@ public class Student implements UserDetails {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -89,44 +88,6 @@ public class Student implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    @Override
-    public String getPassword() {
-        return password;
     }
 
     public LocalDate getDot() {
@@ -145,15 +106,53 @@ public class Student implements UserDetails {
         this.age = age;
     }
 
+    public String getPassword(){
+        return password;
+    }
+
+    public void setPassword(String password){
+        this.password = password;
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
+    public List<Role> getRoles(){
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles){
+        this.roles = roles;
+    }
+
+    public boolean isEnable(){
+        return enable;
+    }
+
+    public void setEnable(boolean enable){
+        this.enable = enable;
+    }
+
     @Override
-    public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", dot=" + dot +
-                ", age=" + age +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Student student = (Student) o;
+
+        if (!id.equals(student.id)) return false;
+        return student.equals(student.username);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + username.hashCode();
+        return result;
     }
 }

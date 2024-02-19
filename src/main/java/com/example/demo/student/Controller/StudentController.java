@@ -2,13 +2,16 @@ package com.example.demo.student.Controller;
 
 import com.example.demo.student.Entity.Student;
 import com.example.demo.student.Service.StudentService;
-import jakarta.persistence.PostUpdate;
-import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+
 
 @RestController
 @RequestMapping(path = "api/v1/student/auth")
@@ -22,12 +25,15 @@ public class StudentController {
 
     @GetMapping
     public List<Student> getStudents() {
-        return studentService.getStudents();
+        return studentService.findAll();
     }
 
+    @PreAuthorize("hasRole('MAESTRO')")
     @PostMapping
-    public void registerNewStudent(@RequestBody Student student) {
-        studentService.addNewStudent(student);
+    public ResponseEntity<?> create(@Valid @RequestBody Student student, BindingResult result) {
+        if (result.hasFieldErrors()){
+            return validation
+        }
     }
 
     @DeleteMapping(path = "{studentId}")
@@ -41,5 +47,9 @@ public class StudentController {
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String email) {
         studentService.updateStudent(studentId, name, email);
+    }
+
+    private ResponseEntity<?> validation(BindingResult result){
+        Map<String >
     }
 }
