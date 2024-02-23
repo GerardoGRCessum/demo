@@ -32,7 +32,7 @@ public class Student {
     private String password;
 
 
-    @JsonIgnoreProperties({"users", "handler", "hibernateLazyInitializer"})
+    @JsonIgnoreProperties({"personas", "students", "handler", "hibernateLazyInitializer"})
     @ManyToMany
     @JoinTable(
             name = "users_roles",
@@ -42,6 +42,9 @@ public class Student {
                     {"user_id", "role_id"})}
     )
     private List<Role> roles;
+    public Student() {
+        roles = new ArrayList<>();
+    }
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean enable;
@@ -55,10 +58,6 @@ public class Student {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean admin;
 
-
-    public Student() {
-        roles = new ArrayList<>();
-    }
 
 
     public Long getId() {
@@ -125,7 +124,7 @@ public class Student {
         Student student = (Student) o;
 
         if (!id.equals(student.id)) return false;
-        return student.equals(student.username);
+        return username.equals(student.username);
     }
 
     @Override

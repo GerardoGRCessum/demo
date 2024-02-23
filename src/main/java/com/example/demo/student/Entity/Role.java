@@ -30,6 +30,14 @@ public class Role {
         this.name = name;
     }
 
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
+
     public Long getId() {
         return id;
     }
@@ -61,14 +69,14 @@ public class Role {
 
         Role role = (Role) o;
 
-        if (!Objects.equals(id, role.id)) return false;
-        return Objects.equals(name, role.name);
+        if (!id.equals(role.id)) return false;
+        return name.equals(role.name);
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
+        int result = id.hashCode();
+        result = 31 * result + name.hashCode();
         return result;
     }
 }

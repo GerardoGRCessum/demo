@@ -5,6 +5,7 @@ import com.example.demo.student.Service.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -16,6 +17,7 @@ import java.util.Map;
 import java.util.Optional;
 
 
+@CrossOrigin(originPatterns= "*")
 @RestController
 @RequestMapping(path = "api/v1/student")
 public class StudentController {
@@ -38,8 +40,9 @@ public class StudentController {
                 .status(HttpStatus.CREATED)
                 .body(studentService.save(student));
     }
-
-    @PostMapping("/register")
+//{"application/xml", "application/json", "application/x-www-form-urlencoded;charset=UTF-8"}
+    //@PostMapping(value = "/register", consumes =  {"application/xml", "application/json", "application/x-www-form-urlencoded;charset=UTF-8"} )
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.ALL_VALUE)
     public ResponseEntity<?> register(@Valid @RequestBody Student student, BindingResult result){
         student.setAdmin(false);
         return create(student, result);
@@ -84,3 +87,4 @@ public class StudentController {
         return ResponseEntity.badRequest().body(errors);
     }
 }
+
