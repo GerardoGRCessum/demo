@@ -5,7 +5,6 @@ import com.example.demo.student.Service.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -41,8 +40,7 @@ public class StudentController {
                 .body(studentService.save(student));
     }
 //{"application/xml", "application/json", "application/x-www-form-urlencoded;charset=UTF-8"}
-    //@PostMapping(value = "/register", consumes =  {"application/xml", "application/json", "application/x-www-form-urlencoded;charset=UTF-8"} )
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.ALL_VALUE)
+    @PostMapping(value = "/register", consumes =  {"application/xml", "application/json;charset=UTF-8", "application/x-www-form-urlencoded;charset=UTF-8"} )
     public ResponseEntity<?> register(@Valid @RequestBody Student student, BindingResult result){
         student.setAdmin(false);
         return create(student, result);
