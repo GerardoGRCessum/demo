@@ -51,7 +51,7 @@ public class SpringSecurityConfig {
                         .anyRequest().authenticated())
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
                 .addFilter(new JwtValidationFilter(authenticationManager()))
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(config -> config.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(management -> management
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -64,6 +64,8 @@ public class SpringSecurityConfig {
         config.setAllowedOriginPatterns(Arrays.asList("*"));
         config.setAllowedMethods(Arrays.asList("GET","POST", "DELETE", "PUT"));
         config.setAllowedHeaders(Arrays.asList("Authorization", "Content-type"));
+        config.setAllowedHeaders(Arrays.asList("contentType", "ngrok-skip-browser-warning"));
+        config.setAllowedHeaders(Arrays.asList("X-Requested-With", "Origin", "Accept"));
         config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
