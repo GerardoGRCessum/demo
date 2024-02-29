@@ -48,6 +48,7 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers(HttpMethod.GET, "/api/v1/student").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/student/register").permitAll()
+
                         .anyRequest().authenticated())
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
                 .addFilter(new JwtValidationFilter(authenticationManager()))
@@ -62,8 +63,9 @@ public class SpringSecurityConfig {
     CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOriginPatterns(Arrays.asList("*"));
-        config.setAllowedMethods(Arrays.asList("GET","POST", "DELETE", "PUT"));
-        config.setAllowedHeaders(Arrays.asList("Authorization", "Content-type"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT"));
+        config.setAllowedHeaders(Arrays.asList("Authorization", "Content-type", "contentType",
+                "ngrok-skip-browser-warning", "application/json; charset-utf-8", "payload", "method"));
         config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
