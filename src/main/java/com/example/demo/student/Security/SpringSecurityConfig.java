@@ -66,6 +66,7 @@ public class SpringSecurityConfig {
         config.setAllowedHeaders(Arrays.asList("Authorization", "Content-type"));
         config.setAllowedHeaders(Arrays.asList("contentType", "ngrok-skip-browser-warning"));
         config.setAllowedHeaders(Arrays.asList("X-Requested-With", "Origin", "Accept"));
+        config.setAllowPrivateNetwork(true);
         config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
