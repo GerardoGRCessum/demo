@@ -16,10 +16,11 @@ services:
   java_db:
     container_name: java_db
     image: mariadb
-
+    ports:
+      - 3306:3306
     environment:
-      MYSQL_ROOT_PASSWORD: 0705
-      MYSQL_DATABASE: student
-      MYSQL_USER: root
-      MYSQL_PASSWORD: 0705
+      MARIADB_ROOT_PASSWORD: 0705
+      MARIA_DATABASE: student
+      MARIA_USER: root
+      MARIA_PASSWORD: 0705
 
