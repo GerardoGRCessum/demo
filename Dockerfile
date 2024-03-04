@@ -1,3 +1,9 @@
-FROM eclipse-temurin:21-jdk-jammy
-COPY target/demo-0.0.1-SNAPSHOT.jar java-app.jar
-ENTRYPOINT ["java", "-jar", "java-app.jar"]
+FROM eclipse-temurin:21.0.2_13-jdk-jammy
+
+WORKDIR /app
+
+COPY ./target/demo-0.0.1-SNAPSHOT.jar ./
+
+EXPOSE 8001
+
+ENTRYPOINT ["java", "-jar", "demo-0.0.1-SNAPSHOT.jar"]
