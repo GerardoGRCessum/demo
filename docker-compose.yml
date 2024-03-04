@@ -9,18 +9,18 @@ services:
         - 8080:8080
       environment:
         - DATABASE_URL=jdbc:mysql://java_db:3306/student
-        - DATABASE_USERNAME=root
-        - DATABASE_PASSWORD=0705
+        - DATABASE_USERNAME=mysql
+        - DATABASE_PASSWORD=mysql
       depends_on:
         - java_db
   java_db:
     container_name: java_db
-    image: mariadb
+    image: mariadb:latest
     ports:
       - 3306:3306
     environment:
-      MARIADB_ROOT_PASSWORD: 0705
-      MARIA_DATABASE: student
-      MARIA_USER: root
-      MARIA_PASSWORD: 0705
+      MYSQL_ROOT_PASSWORD: 0705
+      MYSQL_DATABASE: student
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 0705
 
