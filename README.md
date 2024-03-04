@@ -1,6 +1,8 @@
 CESSUM DataCore API
 TODO:
 *autorización 
-02/02/2024
--implementado clase de autentificación. 
+04/03/2024
+-pruebas de ngrok con clase estudiante realizadas
+-contenedores api y mysql creados
+-archivo docker-compose.yml creado
 
