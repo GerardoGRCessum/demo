@@ -9,6 +9,7 @@ COPY ./mvnw .
 COPY ./pom.xml .
                         #saltar compilacion de test y main
 RUN ./mvnw clean package -Dmaven.test.skip -Dmaven.main.skip -Dspring-boot.repackage.skip && rm -r ./target/
+#RUN ./mvnw dependency:go-offline segunda manera
 COPY ./src ./src
 RUN ./mvnw clean package -DskipTests
 EXPOSE 8001
