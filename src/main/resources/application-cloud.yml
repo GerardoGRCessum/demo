@@ -1,0 +1,17 @@
+spring:
+  cloud:
+    gcp:
+      sql:
+        enabled: true
+        database-name: student
+        instance-connection-name: proyecto-gcp-416401:us-central1:gcp-demo-sql
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 5
+    username: gera
+    password: 0705
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
