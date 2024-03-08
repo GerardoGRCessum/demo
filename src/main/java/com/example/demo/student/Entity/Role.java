@@ -2,12 +2,14 @@ package com.example.demo.student.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
+@EnableAutoConfiguration
 @Table(name = "roles")
 public class Role {
 
