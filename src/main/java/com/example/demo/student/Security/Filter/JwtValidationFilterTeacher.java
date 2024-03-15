@@ -1,6 +1,5 @@
 package com.example.demo.student.Security.Filter;
 
-<<<<<<< HEAD
 import com.example.demo.student.Security.SimpleGrantedAuthorityJsonCreator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
@@ -28,8 +27,8 @@ import static com.example.demo.student.Security.TokenJwtConfig.*;
 
 public class JwtValidationFilterTeacher extends BasicAuthenticationFilter {
 
-    public JwtValidationFilterTeacher(AuthenticationManager authenticationManager){
-        super (authenticationManager);
+    public JwtValidationFilterTeacher(AuthenticationManager authenticationManager) {
+        super(authenticationManager);
     }
 
     @Override
@@ -38,7 +37,7 @@ public class JwtValidationFilterTeacher extends BasicAuthenticationFilter {
                                     FilterChain chain) throws ServletException, IOException {
         String header = request.getHeader(HEADER_AUTHORIZATION);
 
-        if(header == null || !header.startsWith(PREFIX_TOKEN)){
+        if (header == null || !header.startsWith(PREFIX_TOKEN)) {
             chain.doFilter(request, response);
             return;
         }
@@ -67,7 +66,7 @@ public class JwtValidationFilterTeacher extends BasicAuthenticationFilter {
 
             SecurityContextHolder.getContext().setAuthentication(authToken); //autenticar
             chain.doFilter(request, response);
-        }catch (JwtException e){
+        } catch (JwtException e) {
             Map<String, String> body = new HashMap<>();
             body.put("erro", e.getMessage());
             body.put("message", "el token jwt no es valido");
@@ -77,7 +76,5 @@ public class JwtValidationFilterTeacher extends BasicAuthenticationFilter {
             response.setContentType(CONTENT_TYPE);
         }
     }
-=======
-public class JwtValidationFilterTeacher {
->>>>>>> 0299fdc7685649360533a763ea752989fc202d2e
 }
+

@@ -18,7 +18,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;

@@ -1,8 +1,5 @@
 package com.example.demo.student.Security.Filter;
 
-<<<<<<< HEAD
-public class JwtAuthenticationFilterTeacher {
-=======
 import com.example.demo.student.Entity.Maestro;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
@@ -16,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -88,5 +86,18 @@ public class JwtAuthenticationFilterTeacher extends UsernamePasswordAuthenticati
         body.put("message", "");
 
     }
->>>>>>> 0299fdc7685649360533a763ea752989fc202d2e
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request,
+                                              HttpServletResponse response,
+                                              AuthenticationException failed) throws IOException,
+            ServletException {
+        Map<String, String> body = new HashMap<>();
+        body.put("message", "error");
+        body.put("error", failed.getMessage());
+
+        response.getWriter().write(new ObjectMapper().writeValueAsString(body));
+        response.setStatus(401);
+        response.setContentType(CONTENT_TYPE);
+    }
 }
