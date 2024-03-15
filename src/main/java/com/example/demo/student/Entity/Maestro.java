@@ -52,5 +52,25 @@ public class Maestro {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean admin;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        Maestro maestro = (Maestro) o;
+
+        if (id != maestro.id) return false;
+        if (!username.equals(maestro.username)) return false;
+        if (!email.equals(maestro.email)) return false;
+        return clave_materia.equals(maestro.clave_materia);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + username.hashCode();
+        result = 31 * result + email.hashCode();
+        result = 31 * result + clave_materia.hashCode();
+        return result;
+    }
 }
