@@ -1,5 +1,6 @@
 package com.example.demo.student.Security.Filter;
 
+<<<<<<< HEAD
 import com.example.demo.student.Security.SimpleGrantedAuthorityJsonCreator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
@@ -76,4 +77,7 @@ public class JwtValidationFilterTeacher extends BasicAuthenticationFilter {
             response.setContentType(CONTENT_TYPE);
         }
     }
+=======
+public class JwtValidationFilterTeacher {
+>>>>>>> 0299fdc7685649360533a763ea752989fc202d2e
 }

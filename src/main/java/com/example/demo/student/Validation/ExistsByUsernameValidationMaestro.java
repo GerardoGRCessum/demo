@@ -12,10 +12,18 @@ public class ExistsByUsernameValidationMaestro implements ConstraintValidator<Ex
 
     @Override
     public boolean isValid(String username, ConstraintValidatorContext constraintValidatorContext){
+<<<<<<< HEAD
         if(maestroService== null){
             return true;
         }
         return !maestroService.existsByUsername(username);
     }
 
+=======
+        if(maestroService == null){
+            return true;
+        }
+        return  !maestroService.existsByUsername(username);
+    }
+>>>>>>> 0299fdc7685649360533a763ea752989fc202d2e
 }
