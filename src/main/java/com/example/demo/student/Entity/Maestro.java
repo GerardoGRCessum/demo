@@ -38,6 +38,15 @@ public class Maestro {
     //TODO: añadir relacion para conectar maestro a materias y grupos
     private String clave_materia;
 
+
+    @JsonIgnoreProperties({"personas", "students", "handler", "hibernateLazyInitializer"})
+    @ManyToMany
+    @JoinTable(
+            name = "teachers_roles",
+            joinColumns = @JoinColumn(name = "teacher_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"),
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"teacher_id", "role_id"})}
+    )
     private List<Role> roles;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

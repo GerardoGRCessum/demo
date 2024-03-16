@@ -1,7 +1,9 @@
 package com.example.demo.student.Security;
 
 import com.example.demo.student.Security.Filter.JwtAuthenticationFilter;
+import com.example.demo.student.Security.Filter.JwtAuthenticationFilterTeacher;
 import com.example.demo.student.Security.Filter.JwtValidationFilter;
+import com.example.demo.student.Security.Filter.JwtValidationFilterTeacher;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -51,6 +53,9 @@ public class SpringSecurityConfig {
                         .anyRequest().authenticated())
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
                 .addFilter(new JwtValidationFilter(authenticationManager()))
+
+                .addFilter(new JwtAuthenticationFilterTeacher(authenticationManager()))
+                .addFilter(new JwtValidationFilterTeacher(authenticationManager()))
                 .csrf(config -> config.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(management -> management
