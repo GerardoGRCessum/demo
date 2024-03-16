@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
-@ComponentScan("com.example")
+@ComponentScan("com.example.demo.student")
 public class DemoApplication {
 
     public static void main(String[] args) {

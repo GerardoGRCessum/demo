@@ -21,7 +21,7 @@ import java.util.List;
 public class Maestro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(unique = true)
     @NotBlank

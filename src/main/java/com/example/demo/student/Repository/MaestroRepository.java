@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MaestroRepository extends JpaRepository<Maestro, Long> {
-    boolean existByUsername(String username);
+    boolean existsByusername(String username);
 
     Optional<Maestro> findByEmail(String email);
 
