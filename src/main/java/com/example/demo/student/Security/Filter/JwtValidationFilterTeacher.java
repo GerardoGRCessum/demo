@@ -42,7 +42,6 @@ public class JwtValidationFilterTeacher extends BasicAuthenticationFilter {
             return;
         }
         String token = header.replace(PREFIX_TOKEN, "");
-
         try {//validar token
             Claims claims = Jwts.parser()
                     .verifyWith(SECRET_KEY)
@@ -68,7 +67,7 @@ public class JwtValidationFilterTeacher extends BasicAuthenticationFilter {
             chain.doFilter(request, response);
         } catch (JwtException e) {
             Map<String, String> body = new HashMap<>();
-            body.put("erro", e.getMessage());
+            body.put("error", e.getMessage());
             body.put("message", "el token jwt no es valido");
 
             response.getWriter().write(new ObjectMapper().writeValueAsString(body));

@@ -45,6 +45,7 @@ public class MaestroController {
     public ResponseEntity<?> register(@Valid @RequestBody Maestro maestro,
                                       BindingResult result) {
         maestro.setAdmin(false);
+
         return create(maestro, result);
     }
 
@@ -81,6 +82,8 @@ public class MaestroController {
         });
         return ResponseEntity.badRequest().body(errors);
     }
+
+    //------------------------------------------------------------
 }
 
 
