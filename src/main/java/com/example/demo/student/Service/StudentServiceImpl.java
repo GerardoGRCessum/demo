@@ -2,12 +2,12 @@ package com.example.demo.student.Service;
 
 import com.example.demo.student.Entity.Role;
 import com.example.demo.student.Entity.Student;
-import com.example.demo.student.Repository.studentRepository;
 import com.example.demo.student.Repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.example.demo.student.Repository.studentRepository;
 
 import java.util.ArrayList;
 import java.util.List;
