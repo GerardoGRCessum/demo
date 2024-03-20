@@ -36,8 +36,12 @@ public class Maestro {
 
     @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
     //TODO: probar tabla conjunta
-    @ManyToMany(mappedBy = "maestros")
-
+    @ManyToMany
+    @JoinTable(
+            name = "clases",
+            joinColumns = @JoinColumn(name = "fk_maestro_id"),
+            inverseJoinColumns = @JoinColumn(name = "clase_id")
+    )
     private List<Materia> materias;
 
 
@@ -50,6 +54,8 @@ public class Maestro {
             uniqueConstraints = {@UniqueConstraint(columnNames = {"teacher_id", "role_id"})}
     )
     private List<Role> roles;
+
+
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean enable;

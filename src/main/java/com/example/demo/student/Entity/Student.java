@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.ToString;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import java.time.LocalDate;
@@ -17,6 +18,7 @@ import java.util.List;
 @EnableAutoConfiguration
 @Table(name = "users")
 @AllArgsConstructor
+@ToString
 public class Student {
 
     @Id
@@ -44,6 +46,16 @@ public class Student {
                     {"user_id", "role_id"})}
     )
     private List<Role> roles;
+
+    @JsonIgnoreProperties({"personas", "students", "handler", "hibernateLazyInitializer"})
+    @ManyToMany
+    @JoinTable(
+            name = "clases",
+            joinColumns = @JoinColumn(name = "fk_user"),
+            inverseJoinColumns = @JoinColumn(name = "clase_id")
+    )
+    private List<Materia> materias;
+
     public Student() {
         roles = new ArrayList<>();
     }

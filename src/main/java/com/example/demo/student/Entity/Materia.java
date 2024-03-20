@@ -17,7 +17,6 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-
 public class Materia {
 
     @Id
@@ -31,17 +30,10 @@ public class Materia {
     @Column(name = "clave_materia")
     private String clave_materia;
 
-
     @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
-    @ManyToMany
-    @JoinTable(
-            name = "teachers_materias",
-            joinColumns = @JoinColumn(name = "teacher_id"),
-            inverseJoinColumns = @JoinColumn(name = "clave_materia"),
-            uniqueConstraints = {@UniqueConstraint(columnNames =
-                    {"teacher_id", "clave_materia"})}
-    )
+    @ManyToMany(mappedBy = "materias")
     private List<Maestro> maestros;
 
-
+    @ManyToMany(mappedBy = "materias")
+    private List<Student> students;
 }

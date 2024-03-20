@@ -18,6 +18,7 @@ public class DemoApplication {
      * INVESTIGAR CORS.
      * AGREGAR ENTIDADES DE MATERIAS, PROFESORES
      * RELACIONAR LAS TABLAS.
+     * hashcode y equals en clases: Materia, Maestro.
      */
 
 }
