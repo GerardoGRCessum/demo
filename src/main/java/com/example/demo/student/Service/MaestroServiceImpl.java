@@ -59,6 +59,12 @@ public class MaestroServiceImpl implements MaestroService{
         return maestroOptional;
     }
 
+    /**
+     *
+     * @param id identificador del maestro
+     * @param maestro objeto de tipo maestro usado para actualizar el mismo objeto
+     * @return una actualizaciòn del objeto
+     */
     @Override
     @Transactional
     public Optional<Maestro> update(Long id, Maestro maestro){

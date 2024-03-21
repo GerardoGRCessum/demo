@@ -38,9 +38,9 @@ public class Maestro {
     //TODO: probar tabla conjunta
     @ManyToMany
     @JoinTable(
-            name = "clases",
-            joinColumns = @JoinColumn(name = "fk_maestro_id"),
-            inverseJoinColumns = @JoinColumn(name = "clase_id")
+            name = "clases", //tabla conectora 'clases'
+            joinColumns = @JoinColumn(name = "fk_maestro_id"), //llave_foranea de tabla clases
+            inverseJoinColumns = @JoinColumn(name = "fk_clave_materia")
     )
     private List<Materia> materias;
 
