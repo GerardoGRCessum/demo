@@ -37,14 +37,12 @@ public class StudentServiceImpl implements StudentService {
     public Student save(Student student) {
         Optional<Role> optionalRoleStudent = roleRepository.findByName("ROLE_USER");
         List<Role> roles = new ArrayList<>();
-
         optionalRoleStudent.ifPresent(roles::add);
 
         if (student.isAdmin()){
             Optional<Role> optionalRoleAdmin = roleRepository.findByName("ROLE_ADMIN");
             optionalRoleAdmin.ifPresent(roles::add);
         }
-
         student.setRoles(roles);
         student.setPassword(passwordEncoder.encode(student.getPassword()));
         return studentRepository.save(student);

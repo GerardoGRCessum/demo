@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
@@ -19,6 +21,8 @@ import java.util.List;
 @Table(name = "users")
 @AllArgsConstructor
 @ToString
+@Getter
+@Setter
 public class Student {
 
     @Id
@@ -37,7 +41,7 @@ public class Student {
 
 
     @JsonIgnoreProperties({"personas", "students", "handler", "hibernateLazyInitializer"})
-    @ManyToMany
+   @ManyToMany
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -47,18 +51,20 @@ public class Student {
     )
     private List<Role> roles;
 
-    @JsonIgnoreProperties({"personas", "students", "handler", "hibernateLazyInitializer"})
+
+    @JsonIgnoreProperties({"maestros", "personas", "students", "handler", "hibernateLazyInitializer"})
     @ManyToMany
     @JoinTable(
             name = "clases",
             joinColumns = @JoinColumn(name = "fk_user"),
-            inverseJoinColumns = @JoinColumn(name = "clase_id")
+            inverseJoinColumns = @JoinColumn(name = "fk_clave_materia")
     )
     private List<Materia> materias;
 
     public Student() {
         roles = new ArrayList<>();
     }
+
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean enable;
@@ -114,13 +120,7 @@ public class Student {
         this.admin = admin;
     }
 
-    public List<Role> getRoles() {
-        return roles;
-    }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
 
     public boolean isEnable() {
         return enable;

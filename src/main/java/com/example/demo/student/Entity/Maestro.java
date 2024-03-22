@@ -23,18 +23,20 @@ public class Maestro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(name = "username")
     @NotBlank
     @Size(min = 4, max = 60)
     private String username;
 
+    @Column(name = "email")
     private String email;
 
     @NotBlank
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) //no mostrar dato en json get
+    @Column(name = "password")
     private String password;
 
-    @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
+    @JsonIgnoreProperties({"students","maestros","personas","handler", "hibernateLazyInitializer"})
     //TODO: probar tabla conjunta
     @ManyToMany
     @JoinTable(
@@ -58,6 +60,7 @@ public class Maestro {
 
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Column(name = "enable")
     private boolean enable;
 
     @PrePersist

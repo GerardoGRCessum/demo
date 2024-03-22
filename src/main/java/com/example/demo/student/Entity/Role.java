@@ -2,6 +2,8 @@ package com.example.demo.student.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import java.util.ArrayList;
@@ -11,6 +13,8 @@ import java.util.Objects;
 @Entity
 @EnableAutoConfiguration
 @Table(name = "roles")
+@Getter
+@Setter
 public class Role {
 
     @Id
@@ -20,25 +24,33 @@ public class Role {
     @Column(unique = true)
     private String name;
 
+
     @JsonIgnoreProperties({"roles", "handler", "hibernateLazyInitializer"})
     @ManyToMany(mappedBy = "roles")
     private List<Student> students;
+
 
     public Role(){
         this.students = new ArrayList<>();
     }
 
+
+
+
+
     public Role(String name){
         this.name = name;
     }
 
-    public List<Student> getStudents() {
+    /*public List<Student> getStudents() {
         return students;
     }
 
     public void setStudents(List<Student> students) {
         this.students = students;
     }
+
+     */
 
     public Long getId() {
         return id;
@@ -56,13 +68,15 @@ public class Role {
         this.name = name;
     }
 
-    public List<Student> getPersonas() {
+    /*public List<Student> getPersonas() {
         return students;
     }
 
     public void setPersonas(List<Student> students) {
         this.students = students;
     }
+
+     */
 
     @Override
     public boolean equals(Object o) {
