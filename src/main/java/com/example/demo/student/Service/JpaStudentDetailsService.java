@@ -34,11 +34,16 @@ public class JpaStudentDetailsService implements UserDetailsService {
 
         Student student = studentOptional.orElseThrow();
 
-        List<GrantedAuthority> authorities = student.getRoles()
+ /*       List<GrantedAuthority> authorities = student.getRoles()
                 .stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .collect(Collectors.toList());*/
+        List<GrantedAuthority> authz;
+        authz = (List<GrantedAuthority>) student.getRol();
+        authz
+                .stream()
+                .map(rol -> new SimpleGrantedAuthority(student.getRol().getName()))
                 .collect(Collectors.toList());
-
         return new User(
                 student.getUsername(),
                 student.getPassword(),
@@ -46,6 +51,6 @@ public class JpaStudentDetailsService implements UserDetailsService {
                 true,
                 true,
                 true,
-                authorities);
+                authz);
     }
 }

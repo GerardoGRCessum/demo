@@ -32,7 +32,9 @@ public class Role {
  /*   @JsonIgnoreProperties({"roles", "handler", "hibernateLazyInitializer"})
     @ManyToMany(mappedBy = "roles")
     private List<Student> students;*/
-
+    @OneToMany(mappedBy = "rol",
+            cascade = CascadeType.ALL)
+    private List<Student> students;
 
    /* public Role(){
         this.students = new ArrayList<>();

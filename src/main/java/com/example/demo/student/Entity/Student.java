@@ -5,15 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
-import java.time.LocalDate;
-import java.time.Period;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,6 +15,7 @@ import java.util.Objects;
 @EnableAutoConfiguration
 @Table(name = "users")
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 @Getter
 @Setter
@@ -42,15 +37,21 @@ public class Student {
 
 
     @JsonIgnoreProperties({"personas", "students", "handler", "hibernateLazyInitializer"})
-    @ManyToMany
+    /*@ManyToMany
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"),
             uniqueConstraints = {@UniqueConstraint(columnNames =
                     {"user_id", "role_id"})}
+    )*/
+    //private List<Role> roles;
+    @ManyToOne(
+
+            cascade = CascadeType.ALL
     )
-    private List<Role> roles;
+    @JoinColumn(name = "id_roles")
+    private Role rol;
 
 
 
@@ -119,7 +120,18 @@ public class Student {
         this.enable = enable;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return enable == student.enable && admin == student.admin && Objects.equals(id, student.id) && Objects.equals(username, student.username) && Objects.equals(email, student.email) && Objects.equals(password, student.password) && Objects.equals(rol, student.rol) && Objects.equals(grupos, student.grupos);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, email, password, rol, grupos, enable, admin);
+    }
 }
 
 
