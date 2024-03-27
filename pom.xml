@@ -96,7 +96,7 @@
 	<build>
 		<plugins>
 			 CREACION DE CONTENEDOR CON JIB (TANTO PARA DOCKER HUB Y
-					GCP Artifact registry
+					GCP Artifact registry)
 			<plugin>
 				<groupId>com.google.cloud.tools</groupId>
 				<artifactId>jib-maven-plugin</artifactId>

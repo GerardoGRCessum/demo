@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @EnableAutoConfiguration
@@ -41,7 +42,7 @@ public class Student {
 
 
     @JsonIgnoreProperties({"personas", "students", "handler", "hibernateLazyInitializer"})
-   @ManyToMany
+    @ManyToMany
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -52,18 +53,20 @@ public class Student {
     private List<Role> roles;
 
 
-    @JsonIgnoreProperties({"maestros", "personas", "students", "handler", "hibernateLazyInitializer"})
+
+
+    @JsonIgnoreProperties({"maestros", "personas", "students", "handler","roles", "hibernateLazyInitializer"})
     @ManyToMany
     @JoinTable(
-            name = "clases",
-            joinColumns = @JoinColumn(name = "fk_user"),
-            inverseJoinColumns = @JoinColumn(name = "fk_clave_materia")
+            name = "user_clase",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "clase_id")
     )
-    private List<Materia> materias;
+    private List<Grupo> grupos;
 
-    public Student() {
+    /*public Student() {
         roles = new ArrayList<>();
-    }
+    }*/
 
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -77,8 +80,6 @@ public class Student {
     @Transient
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean admin;
-
-
 
     public Long getId() {
         return id;
@@ -112,39 +113,13 @@ public class Student {
         this.password = password;
     }
 
-    public boolean isAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
-    }
-
-
-
-    public boolean isEnable() {
-        return enable;
-    }
+    public boolean isEnable() {return enable;}
 
     public void setEnable(boolean enable) {
         this.enable = enable;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
-        Student student = (Student) o;
-
-        if (!id.equals(student.id)) return false;
-        return username.equals(student.username);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + username.hashCode();
-        return result;
-    }
 }
+
+

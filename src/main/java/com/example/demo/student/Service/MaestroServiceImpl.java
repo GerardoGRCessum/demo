@@ -77,7 +77,6 @@ public class MaestroServiceImpl implements MaestroService{
             maestroDb.setRoles(maestro.getRoles());
             maestroDb.setAdmin(maestro.isAdmin());
             maestroDb.setEnable(maestro.isEnable());
-            maestroDb.setMaterias(maestro.getMaterias());
             return Optional.of(maestroRepository.save(maestroDb));
         }
         return maestroOptional;

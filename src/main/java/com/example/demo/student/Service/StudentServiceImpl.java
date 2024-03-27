@@ -36,14 +36,12 @@ public class StudentServiceImpl implements StudentService {
     @Transactional
     public Student save(Student student) {
         Optional<Role> optionalRoleStudent = roleRepository.findByName("ROLE_USER");
-        List<Role> roles = new ArrayList<>();
-        optionalRoleStudent.ifPresent(roles::add);
+        //List<Role> roles = new ArrayList<>();
+        //optionalRoleStudent.ifPresent(roles::add);
+        Role rol = new Role("ROLE_USER");
 
-        if (student.isAdmin()){
-            Optional<Role> optionalRoleAdmin = roleRepository.findByName("ROLE_ADMIN");
-            optionalRoleAdmin.ifPresent(roles::add);
-        }
-        student.setRoles(roles);
+        //student.setRoles(roles);
+        student.setRol(rol);
         student.setPassword(passwordEncoder.encode(student.getPassword()));
         return studentRepository.save(student);
     }
@@ -73,7 +71,6 @@ public class StudentServiceImpl implements StudentService {
             studentDb.setUsername(student.getUsername());
             studentDb.setEmail(student.getEmail());
             studentDb.setPassword(student.getPassword());
-            studentDb.setRoles(student.getRoles());
             studentDb.setAdmin(student.isAdmin());
             studentDb.setEnable(student.isEnable());
             return Optional.of(studentRepository.save(studentDb));

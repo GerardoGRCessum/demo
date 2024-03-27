@@ -31,10 +31,7 @@ public class Materia {
     @Column(name = "clave_materia")
     private String clave_materia;
 
-    @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
-    @ManyToMany(mappedBy = "materias")
-    private List<Maestro> maestros;
 
-    @ManyToMany(mappedBy = "materias")
-    private List<Student> students;
+    @OneToMany(mappedBy = "materia")
+    private List<Grupo> grupos;
 }

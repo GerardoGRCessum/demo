@@ -9,6 +9,7 @@ import lombok.*;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @EnableAutoConfiguration
@@ -36,15 +37,10 @@ public class Maestro {
     @Column(name = "password")
     private String password;
 
-    @JsonIgnoreProperties({"students","maestros","personas","handler", "hibernateLazyInitializer"})
+    @JsonIgnoreProperties({"students","maestros","personas","teacher","grupos", "roles","handler", "hibernateLazyInitializer"})
     //TODO: probar tabla conjunta
-    @ManyToMany
-    @JoinTable(
-            name = "clases", //tabla conectora 'clases'
-            joinColumns = @JoinColumn(name = "fk_maestro_id"), //llave_foranea de tabla clases
-            inverseJoinColumns = @JoinColumn(name = "fk_clave_materia")
-    )
-    private List<Materia> materias;
+   @OneToMany(mappedBy = "teacher")
+    private List<Grupo> grupos;
 
 
     @JsonIgnoreProperties({"personas", "students", "handler", "hibernateLazyInitializer"})
@@ -72,5 +68,16 @@ public class Maestro {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean admin;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Maestro maestro = (Maestro) o;
+        return enable == maestro.enable && admin == maestro.admin && Objects.equals(id, maestro.id) && Objects.equals(username, maestro.username) && Objects.equals(email, maestro.email) && Objects.equals(password, maestro.password) && Objects.equals(grupos, maestro.grupos) && Objects.equals(roles, maestro.roles);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, email, password, grupos, roles, enable, admin);
+    }
 }
