@@ -1,7 +1,10 @@
 package com.example.demo.student.Controller;
 
+import com.example.demo.student.Entity.Grupo;
 import com.example.demo.student.Entity.Maestro;
+import com.example.demo.student.Entity.Student;
 import com.example.demo.student.Service.MaestroService;
+import com.example.demo.student.Service.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +25,9 @@ public class MaestroController {
 
     @Autowired
     private MaestroService maestroService;
+
+    @Autowired
+    private StudentService studentService;
 
     @GetMapping
     public List<Maestro> getTeachers() {
@@ -61,8 +67,7 @@ public class MaestroController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(path = "/{teacherId}")
-    public ResponseEntity<?> update(@Valid @RequestBody Maestro maestro,
-                                    BindingResult  result,
+    public ResponseEntity<?> update(@Valid @RequestBody Maestro maestro, BindingResult  result,
                                     @PathVariable Long teacherId) {
         Optional<Maestro> maestroOptional = maestroService.update(teacherId, maestro);
         if (result.hasFieldErrors()){
@@ -71,7 +76,17 @@ public class MaestroController {
         return ResponseEntity.notFound().build();
     }
 
+    @PreAuthorize("hasRole('TEACHER)")
+    @PutMapping(path = "/studentgroup/{studentId}")
+    public ResponseEntity<?> EstudianteAGrupo(@Valid @RequestBody Student student, BindingResult result,
+                                                  @PathVariable Long studentId){
+        Optional<Student> studentOptional = studentService.update(studentId, student);
 
+        if (result.hasFieldErrors()){
+            return ResponseEntity.status(HttpStatus.CREATED).body(studentOptional.orElseThrow());
+        }
+        return ResponseEntity.notFound().build();
+    }
 
     private ResponseEntity<?> validation(BindingResult result){
         Map<String, String> errors = new HashMap<>();

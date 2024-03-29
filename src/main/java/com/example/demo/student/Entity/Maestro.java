@@ -19,6 +19,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode(exclude = "invoices")
 public class Maestro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

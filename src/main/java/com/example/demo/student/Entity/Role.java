@@ -2,10 +2,7 @@ package com.example.demo.student.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import java.util.ArrayList;
@@ -19,6 +16,7 @@ import java.util.Objects;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = "invoices")
 public class Role {
 
     @Id
@@ -32,8 +30,7 @@ public class Role {
  /*   @JsonIgnoreProperties({"roles", "handler", "hibernateLazyInitializer"})
     @ManyToMany(mappedBy = "roles")
     private List<Student> students;*/
-    @OneToMany(mappedBy = "rol",
-            cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "rol")
     private List<Student> students;
 
    /* public Role(){

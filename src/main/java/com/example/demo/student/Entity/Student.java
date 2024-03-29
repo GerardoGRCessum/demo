@@ -19,6 +19,7 @@ import java.util.Objects;
 @ToString
 @Getter
 @Setter
+@EqualsAndHashCode(exclude = "invoices")
 public class Student {
 
     @Id
@@ -78,9 +79,7 @@ public class Student {
         enable = true;
     }
 
-    @Transient
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private boolean admin;
+
 
     public Long getId() {
         return id;
@@ -120,18 +119,7 @@ public class Student {
         this.enable = enable;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Student student = (Student) o;
-        return enable == student.enable && admin == student.admin && Objects.equals(id, student.id) && Objects.equals(username, student.username) && Objects.equals(email, student.email) && Objects.equals(password, student.password) && Objects.equals(rol, student.rol) && Objects.equals(grupos, student.grupos);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, username, email, password, rol, grupos, enable, admin);
-    }
 }
 
 

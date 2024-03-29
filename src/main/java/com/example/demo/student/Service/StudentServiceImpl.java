@@ -69,7 +69,6 @@ public class StudentServiceImpl implements StudentService {
             studentDb.setUsername(student.getUsername());
             studentDb.setEmail(student.getEmail());
             studentDb.setPassword(student.getPassword());
-            studentDb.setAdmin(student.isAdmin());
             studentDb.setEnable(student.isEnable());
             return Optional.of(studentRepository.save(studentDb));
         }

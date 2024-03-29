@@ -17,6 +17,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode(exclude = "invoices")
 public class Grupo {
 
     @Id

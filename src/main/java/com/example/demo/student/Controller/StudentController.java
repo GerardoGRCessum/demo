@@ -45,7 +45,7 @@ public class StudentController {
         return studentService.findAll();
     }
 
-    @PreAuthorize("hasRole('MAESTRO')")
+    @PreAuthorize("hasRole('TEACHER')")
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody Student student, BindingResult result) {
         if (result.hasFieldErrors()){
@@ -59,7 +59,6 @@ public class StudentController {
 //{"application/xml", "application/json", "application/x-www-form-urlencoded;charset=UTF-8"}
     @PostMapping(path = "/register", consumes =  {"application/xml", "application/json;charset=UTF-8", "application/x-www-form-urlencoded;charset=UTF-8"} )
     public ResponseEntity<?> register(@Valid @RequestBody Student student, BindingResult result){
-        student.setAdmin(false);
         return create(student, result);
     }
 
@@ -76,7 +75,7 @@ public class StudentController {
         return ResponseEntity.notFound().build();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('TEACHER')")
     @PutMapping(path = "/{studentId}")
     public ResponseEntity<?> update(@Valid @RequestBody Student student, BindingResult result,
                                     @PathVariable Long studentId){
