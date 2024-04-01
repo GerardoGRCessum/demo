@@ -19,7 +19,7 @@ import java.util.Objects;
 @ToString
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = "invoices")
+@EqualsAndHashCode
 public class Student {
 
     @Id

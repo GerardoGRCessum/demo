@@ -56,6 +56,7 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/v1/student").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/student/register").permitAll()
                         .requestMatchers(HttpMethod.PUT, "api/v1/student/{id}").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "api/v1/student/{Id}/grupo/{idGrupo}").permitAll()
 
                         .anyRequest().authenticated())
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))

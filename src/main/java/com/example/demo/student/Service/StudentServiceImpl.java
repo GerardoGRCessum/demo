@@ -1,7 +1,9 @@
 package com.example.demo.student.Service;
 
+import com.example.demo.student.Entity.Grupo;
 import com.example.demo.student.Entity.Role;
 import com.example.demo.student.Entity.Student;
+import com.example.demo.student.Repository.GrupoRepository;
 import com.example.demo.student.Repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +23,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private GrupoRepository grupoRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -85,7 +90,19 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.findById(studentName);
     }*/
 
-
-
-
+    @Override
+    public Optional<Student> asignarClase(Long idStudent, Long idClase) {
+        Optional<Student> studentOptional = studentRepository.findById(idStudent);
+        Optional<Grupo> grupoOptional = grupoRepository.findById(idClase);
+        List<Grupo> grupos;
+        if (studentOptional.isPresent()) {
+            Student stuDb = studentOptional.orElseThrow();
+            grupos = stuDb.getGrupos();
+            Grupo gruDb = grupoOptional.orElseThrow();
+            grupos.add(gruDb);
+            stuDb.setGrupos(grupos);
+            return Optional.of(studentRepository.save(stuDb));
+        }
+        return studentOptional;
+    }
 }

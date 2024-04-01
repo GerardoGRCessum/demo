@@ -1,5 +1,6 @@
 package com.example.demo.student.Controller;
 
+import com.example.demo.student.Entity.Grupo;
 import com.example.demo.student.Entity.Student;
 import com.example.demo.student.Service.StudentService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -64,7 +65,7 @@ public class StudentController {
 
 
 
-    //TODO: ELIMINAR EN FUTURAS UPDATES
+
     @PreAuthorize("hasRoles('ADMIN')")
     @DeleteMapping(path = "/{studentId}")
     public ResponseEntity<?> deleteStudent(@PathVariable("studentId") Long studentId) {
@@ -75,27 +76,17 @@ public class StudentController {
         return ResponseEntity.notFound().build();
     }
 
-    /*@PreAuthorize("hasRole('TEACHER')")
-    @PutMapping(path = "/{studentId}")
-    public ResponseEntity<?> update(@Valid @RequestBody Student student, BindingResult result,
-                                    @PathVariable Long studentId){
 
-        Optional<Student> studentOptional = studentService.update(studentId, student);
-        if(result.hasFieldErrors()){
-            return ResponseEntity.status(HttpStatus.CREATED).body(studentOptional.orElseThrow());
-        }
-        return ResponseEntity.notFound().build();
-    }*/
-
-    @PutMapping("/{Id}")
-    public ResponseEntity<Student> EstudianteAGrupo(@Valid @RequestBody Student student, BindingResult result,
-                                                    @PathVariable Long Id){
-        Optional<Student> studentOptional = studentService.update(Id, student);
+    //@PreAuthorize("hasRole('TEACHER')")
+    @PutMapping("/{Id}/grupo/{grupoId}")
+    public ResponseEntity<Student> EstudianteAGrupo(@PathVariable("Id") Long Id, @PathVariable("grupoId") Long grupoId){
+        Optional<Student> studentOptional = studentService.asignarClase(Id, grupoId);
         if (studentOptional.isPresent()){
             return ResponseEntity.status(HttpStatus.CREATED).body(studentOptional.orElseThrow());
         }
         return ResponseEntity.notFound().build();
     }
+
     private ResponseEntity<?> validation(BindingResult result){
         Map<String, String> errors = new HashMap<>();
 

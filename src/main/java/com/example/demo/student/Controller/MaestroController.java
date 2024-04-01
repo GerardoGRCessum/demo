@@ -76,7 +76,7 @@ public class MaestroController {
         return ResponseEntity.notFound().build();
     }
 
-    //@PreAuthorize("hasRole('TEACHER)")
+    @PreAuthorize("hasRole('TEACHER)")
     @PutMapping("/{Id}")
     public ResponseEntity<Student> EstudianteAGrupo(@Valid @RequestBody Student student, BindingResult result,
                                                   @PathVariable Long Id){
