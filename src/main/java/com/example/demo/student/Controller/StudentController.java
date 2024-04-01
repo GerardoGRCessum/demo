@@ -75,7 +75,7 @@ public class StudentController {
         return ResponseEntity.notFound().build();
     }
 
-    @PreAuthorize("hasRole('TEACHER')")
+    /*@PreAuthorize("hasRole('TEACHER')")
     @PutMapping(path = "/{studentId}")
     public ResponseEntity<?> update(@Valid @RequestBody Student student, BindingResult result,
                                     @PathVariable Long studentId){
@@ -85,9 +85,17 @@ public class StudentController {
             return ResponseEntity.status(HttpStatus.CREATED).body(studentOptional.orElseThrow());
         }
         return ResponseEntity.notFound().build();
+    }*/
+
+    @PutMapping("/{Id}")
+    public ResponseEntity<Student> EstudianteAGrupo(@Valid @RequestBody Student student, BindingResult result,
+                                                    @PathVariable Long Id){
+        Optional<Student> studentOptional = studentService.update(Id, student);
+        if (studentOptional.isPresent()){
+            return ResponseEntity.status(HttpStatus.CREATED).body(studentOptional.orElseThrow());
+        }
+        return ResponseEntity.notFound().build();
     }
-
-
     private ResponseEntity<?> validation(BindingResult result){
         Map<String, String> errors = new HashMap<>();
 

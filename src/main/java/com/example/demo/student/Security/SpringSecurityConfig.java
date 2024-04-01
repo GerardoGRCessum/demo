@@ -51,10 +51,11 @@ public class SpringSecurityConfig {
                         //maestro ->
                         .requestMatchers(HttpMethod.GET, "api/v1/teacher").permitAll()
                         .requestMatchers(HttpMethod.POST, "api/v1/teacher/register").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "api/v1/teacher/studentgroup").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "api/v1/teacher/{id}").permitAll()
                         //estudiante ->
                         .requestMatchers(HttpMethod.GET, "/api/v1/student").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/student/register").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "api/v1/student/{id}").permitAll()
 
                         .anyRequest().authenticated())
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
@@ -64,6 +65,7 @@ public class SpringSecurityConfig {
                 .addFilter(new JwtValidationFilterTeacher(authenticationManager()))
                 .csrf(config -> config.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+
                 .sessionManagement(management -> management
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();
@@ -73,7 +75,7 @@ public class SpringSecurityConfig {
     CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOriginPatterns(Arrays.asList("*"));
-        config.setAllowedMethods(Arrays.asList("GET","POST", "DELETE", "PUT"));
+        config.setAllowedMethods(Arrays.asList("GET","POST", "DELETE", "PUT", "OPTIONS"));
         config.setAllowedHeaders(Arrays.asList("Authorization", "Content-type"));
         config.setAllowedHeaders(Arrays.asList("contentType", "ngrok-skip-browser-warning"));
         config.setAllowedHeaders(Arrays.asList("X-Requested-With", "Origin", "Accept"));

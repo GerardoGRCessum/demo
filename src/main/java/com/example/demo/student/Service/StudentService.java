@@ -13,9 +13,12 @@ public interface StudentService {
 
     Optional<Student> update(Long id, Student student);
 
+    Optional<Student> findById(Long id);
+
     boolean existsByUsername(String username);
 
     //TODO: ELIMINAR EN FUTURAS UPDATES
     Optional<Student> delete(Long id);
+
 
 }

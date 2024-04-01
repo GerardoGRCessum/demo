@@ -1,5 +1,6 @@
 package com.example.demo.student.Service;
 
+import com.example.demo.student.Entity.Role;
 import com.example.demo.student.Entity.Student;
 import com.example.demo.student.Repository.studentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,17 +34,18 @@ public class JpaStudentDetailsService implements UserDetailsService {
         }
 
         Student student = studentOptional.orElseThrow();
-
+        Role rolName = student.getRol();
+        List<Role> roles = null;
+        roles.add(rolName);
  /*       List<GrantedAuthority> authorities = student.getRoles()
                 .stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());*/
-        List<GrantedAuthority> authz;
-        authz = (List<GrantedAuthority>) student.getRol();
-        authz
-                .stream()
-                .map(rol -> new SimpleGrantedAuthority(student.getRol().getName()))
+
+        List<GrantedAuthority> authz = roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
+
         return new User(
                 student.getUsername(),
                 student.getPassword(),

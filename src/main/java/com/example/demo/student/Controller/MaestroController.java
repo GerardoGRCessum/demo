@@ -76,13 +76,12 @@ public class MaestroController {
         return ResponseEntity.notFound().build();
     }
 
-    @PreAuthorize("hasRole('TEACHER)")
-    @PutMapping(path = "/studentgroup/{studentId}")
-    public ResponseEntity<?> EstudianteAGrupo(@Valid @RequestBody Student student, BindingResult result,
-                                                  @PathVariable Long studentId){
-        Optional<Student> studentOptional = studentService.update(studentId, student);
-
-        if (result.hasFieldErrors()){
+    //@PreAuthorize("hasRole('TEACHER)")
+    @PutMapping("/{Id}")
+    public ResponseEntity<Student> EstudianteAGrupo(@Valid @RequestBody Student student, BindingResult result,
+                                                  @PathVariable Long Id){
+        Optional<Student> studentOptional = studentService.update(Id, student);
+        if (studentOptional.isPresent()){
             return ResponseEntity.status(HttpStatus.CREATED).body(studentOptional.orElseThrow());
         }
         return ResponseEntity.notFound().build();

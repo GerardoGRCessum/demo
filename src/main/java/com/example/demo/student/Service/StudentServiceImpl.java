@@ -63,18 +63,21 @@ public class StudentServiceImpl implements StudentService {
     @Transactional
     public Optional<Student> update(Long id, Student student){
         Optional<Student> studentOptional = studentRepository.findById(id);
-        if (studentOptional.isPresent()){
+        if(studentOptional.isPresent()){
             Student studentDb = studentOptional.orElseThrow();
-
             studentDb.setUsername(student.getUsername());
             studentDb.setEmail(student.getEmail());
-            studentDb.setPassword(student.getPassword());
-            studentDb.setEnable(student.isEnable());
+            studentDb.setGrupos(student.getGrupos());
             return Optional.of(studentRepository.save(studentDb));
         }
         return studentOptional;
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Student> findById(Long id) {
+        return studentRepository.findById(id);
+    }
 
     /*public Optional<Student> getStudentById(String studentName){
         long id = studentRepository.findBy()
