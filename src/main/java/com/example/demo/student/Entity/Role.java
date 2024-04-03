@@ -16,7 +16,7 @@ import java.util.Objects;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = "invoices")
+@EqualsAndHashCode
 public class Role {
 
     @Id
@@ -27,8 +27,8 @@ public class Role {
     private String name;
 
 
- /*   @JsonIgnoreProperties({"roles", "handler", "hibernateLazyInitializer"})
-    @ManyToMany(mappedBy = "roles")
+    @JsonIgnoreProperties({"roles", "personas", "student","handler", "hibernateLazyInitializer"})
+    /*@ManyToMany(mappedBy = "roles")
     private List<Student> students;*/
     @OneToMany(mappedBy = "rol")
     private List<Student> students;

@@ -52,6 +52,7 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.GET, "api/v1/teacher").permitAll()
                         .requestMatchers(HttpMethod.POST, "api/v1/teacher/register").permitAll()
                         .requestMatchers(HttpMethod.PUT, "api/v1/teacher/{id}").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "api/v1/teacher/{id}/grupo/{idGrupo}").permitAll()
                         //estudiante ->
                         .requestMatchers(HttpMethod.GET, "/api/v1/student").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/student/register").permitAll()
@@ -62,8 +63,8 @@ public class SpringSecurityConfig {
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
                 .addFilter(new JwtValidationFilter(authenticationManager()))
 
-                .addFilter(new JwtAuthenticationFilterTeacher(authenticationManager()))
-                .addFilter(new JwtValidationFilterTeacher(authenticationManager()))
+                //.addFilter(new JwtAuthenticationFilterTeacher(authenticationManager()))
+                //.addFilter(new JwtValidationFilterTeacher(authenticationManager()))
                 .csrf(config -> config.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 

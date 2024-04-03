@@ -14,6 +14,7 @@ import com.example.demo.student.Repository.studentRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -94,7 +95,7 @@ public class StudentServiceImpl implements StudentService {
     public Optional<Student> asignarClase(Long idStudent, Long idClase) {
         Optional<Student> studentOptional = studentRepository.findById(idStudent);
         Optional<Grupo> grupoOptional = grupoRepository.findById(idClase);
-        List<Grupo> grupos;
+        Set<Grupo> grupos;
         if (studentOptional.isPresent()) {
             Student stuDb = studentOptional.orElseThrow();
             grupos = stuDb.getGrupos();

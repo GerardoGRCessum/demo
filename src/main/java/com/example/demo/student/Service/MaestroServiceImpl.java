@@ -1,7 +1,9 @@
 package com.example.demo.student.Service;
 
+import com.example.demo.student.Entity.Grupo;
 import com.example.demo.student.Entity.Maestro;
 import com.example.demo.student.Entity.Role;
+import com.example.demo.student.Repository.GrupoRepository;
 import com.example.demo.student.Repository.MaestroRepository;
 import com.example.demo.student.Repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +14,16 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class MaestroServiceImpl implements MaestroService{
 
     @Autowired
     private MaestroRepository maestroRepository;
+
+    @Autowired
+    private GrupoRepository grupoRepository;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -85,5 +91,21 @@ public class MaestroServiceImpl implements MaestroService{
     @Override
     public boolean existsByUsername(String username) {
         return false;
+    }
+
+    @Override
+    public Optional<Maestro> asignarGrupo(Long idMaestro, Long idClase) {
+        Optional<Maestro> maestroOptional = maestroRepository.findById(idMaestro);
+        Optional<Grupo> grupoOptional = grupoRepository.findById(idClase);
+        Set<Grupo> grupos;
+        if(maestroOptional.isPresent()){
+            Maestro maesDb = maestroOptional.orElseThrow();
+            grupos = maesDb.getGrupos();
+            Grupo gruDb = grupoOptional.orElseThrow();
+            grupos.add(gruDb);
+            maesDb.setGrupos(grupos);
+            return Optional.of(maestroRepository.save(maesDb));
+        }
+        return maestroOptional;
     }
 }

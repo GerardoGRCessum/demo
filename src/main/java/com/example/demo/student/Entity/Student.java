@@ -10,13 +10,14 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @EnableAutoConfiguration
 @Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(doNotUseGetters = true)
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -37,7 +38,7 @@ public class Student {
     private String password;
 
 
-    @JsonIgnoreProperties({"personas", "students", "handler", "hibernateLazyInitializer"})
+    @JsonIgnoreProperties({"personas", "students", "roles", "rol", "teacher", "handler", "hibernateLazyInitializer"})
     /*@ManyToMany
     @JoinTable(
             name = "users_roles",
@@ -64,8 +65,8 @@ public class Student {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "clase_id")
     )
-    private List<Grupo> grupos;
-
+    //private List<Grupo> grupos;
+    private Set<Grupo> grupos;
     /*public Student() {
         roles = new ArrayList<>();
     }*/
