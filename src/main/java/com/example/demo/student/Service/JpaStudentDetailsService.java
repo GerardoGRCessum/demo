@@ -34,9 +34,9 @@ public class JpaStudentDetailsService implements UserDetailsService {
         }
         //problema de roles y login por RESOLVER
         Student student = studentOptional.orElseThrow();
-        Role rolName = student.getRol();
+        Role rol = student.getRol();
         List<Role> roles = null;
-        roles.add(rolName);
+        roles.add(rol);
  /*       List<GrantedAuthority> authorities = student.getRoles()
                 .stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))

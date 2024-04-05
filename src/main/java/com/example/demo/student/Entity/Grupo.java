@@ -17,16 +17,25 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode(exclude = "invoices")
+@EqualsAndHashCode
 public class Grupo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_clase")
+    @ToString.Exclude
     private Long id;
 
-    @ManyToMany(mappedBy = "grupos")
+    @ManyToMany(mappedBy = "grupos",
+            fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.DETACH,
+                    CascadeType.MERGE,
+                    CascadeType.REFRESH,
+                    CascadeType.PERSIST
+            })
     @JsonIgnoreProperties({"roles", "id"})
+    @ToString.Exclude
     private List<Student> students;
 
     @ManyToOne
@@ -39,7 +48,7 @@ public class Grupo {
     @JoinColumn(name = "id_teacher")
     private Maestro teacher;
 
-    @Override
+    /*@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -50,5 +59,5 @@ public class Grupo {
     @Override
     public int hashCode() {
         return Objects.hash(id, students, materia, teacher);
-    }
+    }*/
 }

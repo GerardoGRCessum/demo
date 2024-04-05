@@ -24,6 +24,7 @@ import java.util.Set;
 public class Maestro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ToString.Exclude
     private Long id;
 
     @Column(name = "username")
@@ -53,6 +54,7 @@ public class Maestro {
             inverseJoinColumns = @JoinColumn(name = "role_id"),
             uniqueConstraints = {@UniqueConstraint(columnNames = {"teacher_id", "role_id"})}
     )
+    @ToString.Exclude
     private List<Role> roles;
 
 

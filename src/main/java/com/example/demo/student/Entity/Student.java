@@ -17,14 +17,14 @@ import java.util.Set;
 @Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(doNotUseGetters = true)
+@ToString
 @Getter
 @Setter
-@EqualsAndHashCode
 public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ToString.Exclude
     private Long id;
 
     @Column(unique = true)
@@ -37,29 +37,21 @@ public class Student {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // no mostrar dato en json GET
     private String password;
 
-
-    @JsonIgnoreProperties({"personas", "students", "roles", "rol", "teacher", "handler", "hibernateLazyInitializer"})
-    /*@ManyToMany
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"),
-            uniqueConstraints = {@UniqueConstraint(columnNames =
-                    {"user_id", "role_id"})}
-    )*/
-    //private List<Role> roles;
-    @ManyToOne(
-
-            cascade = CascadeType.ALL
-    )
+    @JsonIgnoreProperties({"personas", "student", "users", "id_roles", "rol", "teacher", "handler", "hibernateLazyInitializer"})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_roles")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Role rol;
 
 
-
-
-    @JsonIgnoreProperties({"maestros", "personas", "students", "handler","roles", "hibernateLazyInitializer"})
-    @ManyToMany
+    @JsonIgnoreProperties({"maestros", "personas", "students", "rol", "id_roles", "handler", "roles", "hibernateLazyInitializer"})
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.DETACH,
+                    CascadeType.MERGE,
+                    CascadeType.REFRESH,
+                    CascadeType.PERSIST
+            })
     @JoinTable(
             name = "user_clase",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -67,9 +59,6 @@ public class Student {
     )
     //private List<Grupo> grupos;
     private Set<Grupo> grupos;
-    /*public Student() {
-        roles = new ArrayList<>();
-    }*/
 
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -79,7 +68,6 @@ public class Student {
     public void prePersist() {
         enable = true;
     }
-
 
 
     public Long getId() {
@@ -114,13 +102,26 @@ public class Student {
         this.password = password;
     }
 
-    public boolean isEnable() {return enable;}
+    public boolean isEnable() {
+        return enable;
+    }
 
     public void setEnable(boolean enable) {
         this.enable = enable;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return Objects.equals(id, student.id) && Objects.equals(username, student.username);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username);
+    }
 }
 
 
