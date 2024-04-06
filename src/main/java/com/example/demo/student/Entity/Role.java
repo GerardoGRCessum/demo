@@ -29,13 +29,11 @@ public class Role {
     private String name;
 
 
-    /*@JsonIgnoreProperties({"rol", "students","handler", "hibernateLazyInitializer"})
-    @JsonIgnore
-
+    @JsonIgnoreProperties(value = {"rol", "students","handler", "hibernateLazyInitializer"})
     @OneToMany(mappedBy = "rol",
-               cascade = CascadeType.REMOVE)
+            cascade = CascadeType.REMOVE)
     @ToString.Exclude
-    private List<Student> students;*/
+    private List<Student> students;
 
    /* public Role(){
         this.students = new ArrayList<>();
@@ -66,23 +64,8 @@ public class Role {
         this.students = students;
     }
 
-     */
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     /*public List<Student> getPersonas() {
         return students;

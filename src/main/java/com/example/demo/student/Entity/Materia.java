@@ -17,6 +17,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode(exclude = {"grupos"})
 public class Materia {
 
     @Id
@@ -32,6 +33,8 @@ public class Materia {
     private String clave_materia;
 
 
+    @JsonIgnoreProperties(value = {"students", "maestros", "personas", "teacher", "grupos", "roles", "handler", "hibernateLazyInitializer"})
     @OneToMany(mappedBy = "materia")
+    @ToString.Exclude
     private List<Grupo> grupos;
 }

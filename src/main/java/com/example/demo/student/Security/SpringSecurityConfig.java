@@ -25,6 +25,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.List;
 
 
 @Configuration
@@ -63,9 +64,10 @@ public class SpringSecurityConfig {
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
                 .addFilter(new JwtValidationFilter(authenticationManager()))
 
-                //.addFilter(new JwtAuthenticationFilterTeacher(authenticationManager()))
-                //.addFilter(new JwtValidationFilterTeacher(authenticationManager()))
-                .csrf(config -> config.disable())
+                .addFilter(new JwtAuthenticationFilterTeacher(authenticationManager()))
+                .addFilter(new JwtValidationFilterTeacher(authenticationManager()))
+                .csrf(AbstractHttpConfigurer::disable)
+                //.csrf(config -> config.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
                 .sessionManagement(management -> management
@@ -76,7 +78,7 @@ public class SpringSecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(Arrays.asList("*"));
+        config.setAllowedOriginPatterns(List.of("*"));
         config.setAllowedMethods(Arrays.asList("GET","POST", "DELETE", "PUT", "OPTIONS"));
         config.setAllowedHeaders(Arrays.asList("Authorization", "Content-type"));
         config.setAllowedHeaders(Arrays.asList("contentType", "ngrok-skip-browser-warning"));

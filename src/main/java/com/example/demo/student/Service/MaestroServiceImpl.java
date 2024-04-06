@@ -106,8 +106,8 @@ public class MaestroServiceImpl implements MaestroService{
 
             grupos.add(gruDb);
             maesDb.setGrupos(grupos);
-            //gruDb.setTeacher(maesDb);
-            //grupoRepository.save(gruDb);
+            gruDb.setTeacher(maesDb);
+            grupoRepository.save(gruDb);
             return Optional.of(maestroRepository.save(maesDb));
         }
         return maestroOptional;

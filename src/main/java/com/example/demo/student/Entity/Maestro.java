@@ -20,7 +20,7 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode(exclude = "roles")
+@EqualsAndHashCode(exclude = {"roles", "grupos"})
 public class Maestro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,8 +41,8 @@ public class Maestro {
     private String password;
 
     @JsonIgnoreProperties(value = {"students", "maestros", "personas", "teacher", "grupos", "roles", "handler", "hibernateLazyInitializer"})
-    //TODO: probar tabla conjunta
-   @OneToMany(mappedBy = "teacher")
+    @OneToMany(mappedBy = "teacher")
+    @ToString.Exclude
     private Set<Grupo> grupos;
 
 

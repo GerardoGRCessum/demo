@@ -37,7 +37,7 @@ public class Student {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // no mostrar dato en json GET
     private String password;
 
-    @JsonIgnoreProperties({"personas", "student", "users", "id_roles", "rol", "teacher", "handler", "hibernateLazyInitializer"})
+    @JsonIgnoreProperties({"personas", "students", "users", "id_roles", "rol", "teacher", "handler", "hibernateLazyInitializer"})
     @ManyToOne
     @JoinColumn(name = "id_roles")
     //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

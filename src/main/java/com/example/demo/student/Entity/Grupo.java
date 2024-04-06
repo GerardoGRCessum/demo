@@ -17,13 +17,11 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode
 public class Grupo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_clase")
-    @ToString.Exclude
     private Long id;
 
     @ManyToMany(mappedBy = "grupos",
@@ -34,13 +32,14 @@ public class Grupo {
                     CascadeType.REFRESH,
                     CascadeType.PERSIST
             })
-    @JsonIgnoreProperties({"roles", "id"})
+    @JsonIgnoreProperties({"roles", "id", "students","maestros","student","teacher","grupos","handler", "hibernateLazyInitializer"})
     @ToString.Exclude
     private List<Student> students;
 
     @ManyToOne
-    @JsonIgnoreProperties({"students","maestros","personas","teacher","grupos","handler", "hibernateLazyInitializer"})
+    @JsonIgnoreProperties({"students","maestros","student","teacher","grupos","handler", "hibernateLazyInitializer"})
     @JoinColumn(name = "id_materia")
+    @ToString.Exclude
     private Materia materia;
 
     @ManyToOne
@@ -60,4 +59,17 @@ public class Grupo {
     public int hashCode() {
         return Objects.hash(id, students, materia, teacher);
     }*/
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Grupo grupo = (Grupo) o;
+        return Objects.equals(id, grupo.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
