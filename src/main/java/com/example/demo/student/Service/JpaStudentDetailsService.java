@@ -32,20 +32,21 @@ public class JpaStudentDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException(String.format("username %s no existe en el sistema",
                     username));
         }
-        //problema de roles y login por RESOLVER
+        //problema de roles y login por RESOLVER---------------------------
         Student student = studentOptional.orElseThrow();
-        Role rol = student.getRol();
         List<Role> roles = null;
-        roles.add(rol);
+        roles.add(student.getRol());
+        List<GrantedAuthority> authz = roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .collect(Collectors.toList());
+
  /*       List<GrantedAuthority> authorities = student.getRoles()
                 .stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());*/
 
-        List<GrantedAuthority> authz = roles.stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName()))
-                .collect(Collectors.toList());
 
+//        authz.stream().map(role -> new SimpleGrantedAuthority())
         return new User(
                 student.getUsername(),
                 student.getPassword(),

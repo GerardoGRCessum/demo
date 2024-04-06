@@ -38,9 +38,9 @@ public class Student {
     private String password;
 
     @JsonIgnoreProperties({"personas", "student", "users", "id_roles", "rol", "teacher", "handler", "hibernateLazyInitializer"})
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_roles")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Role rol;
 
 

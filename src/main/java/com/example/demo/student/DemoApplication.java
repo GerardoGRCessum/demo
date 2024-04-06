@@ -13,12 +13,8 @@ public class DemoApplication {
         SpringApplication.run(DemoApplication.class, args);
     }
     /*TODO:
-     * CAMBIAR API A AuthentificationController.
      * COMENTAR CLASES.
-     * INVESTIGAR CORS.
-     * AGREGAR ENTIDADES DE MATERIAS, PROFESORES
-     * RELACIONAR LAS TABLAS.
-     * hashcode y equals en clases: Materia, Maestro.
+     * arreglar login en JpaStudentDetailsSerivce
      */
 
 }

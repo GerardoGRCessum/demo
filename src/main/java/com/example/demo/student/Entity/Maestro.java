@@ -20,7 +20,7 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = "roles")
 public class Maestro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,13 +40,13 @@ public class Maestro {
     @Column(name = "password")
     private String password;
 
-    @JsonIgnoreProperties({"students","maestros","personas","teacher","grupos", "roles","handler", "hibernateLazyInitializer"})
+    @JsonIgnoreProperties(value = {"students", "maestros", "personas", "teacher", "grupos", "roles", "handler", "hibernateLazyInitializer"})
     //TODO: probar tabla conjunta
    @OneToMany(mappedBy = "teacher")
     private Set<Grupo> grupos;
 
 
-    @JsonIgnoreProperties({"personas", "students", "handler", "hibernateLazyInitializer"})
+    @JsonIgnoreProperties(value = {"personas", "students", "handler", "hibernateLazyInitializer"})
     @ManyToMany
     @JoinTable(
             name = "teachers_roles",

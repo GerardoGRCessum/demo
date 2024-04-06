@@ -39,7 +39,7 @@ public class Grupo {
     private List<Student> students;
 
     @ManyToOne
-    @JsonIgnoreProperties({"grupos"})
+    @JsonIgnoreProperties({"students","maestros","personas","teacher","grupos","handler", "hibernateLazyInitializer"})
     @JoinColumn(name = "id_materia")
     private Materia materia;
 
