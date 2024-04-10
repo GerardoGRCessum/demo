@@ -18,7 +18,7 @@ import java.util.Objects;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
+@ToString
 public class Role {
 
     @Id
@@ -29,15 +29,19 @@ public class Role {
     private String name;
 
 
-    @JsonIgnoreProperties(value = {"rol", "students","handler", "hibernateLazyInitializer"})
+    @JsonIgnoreProperties(value = {"rol", "users", "roles", "students","handler", "hibernateLazyInitializer"})
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "rol",
             cascade = CascadeType.REMOVE)
     @ToString.Exclude
     private List<Student> students;
 
-   /* public Role(){
-        this.students = new ArrayList<>();
-    }*/
+
+
+    public Role(String name){
+        this.name = name;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -51,47 +55,4 @@ public class Role {
     public int hashCode() {
         return Objects.hash(id, name);
     }
-
-    public Role(String name){
-        this.name = name;
-    }
-
-    /*public List<Student> getStudents() {
-        return students;
-    }
-
-    public void setStudents(List<Student> students) {
-        this.students = students;
-    }
-
-
-
-
-    /*public List<Student> getPersonas() {
-        return students;
-    }
-
-    public void setPersonas(List<Student> students) {
-        this.students = students;
-    }
-
-     */
-
-    /*@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Role role = (Role) o;
-
-        if (!id.equals(role.id)) return false;
-        return name.equals(role.name);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + name.hashCode();
-        return result;
-    }*/
 }

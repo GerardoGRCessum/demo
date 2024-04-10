@@ -2,10 +2,15 @@ package com.example.demo.student.Controller;
 
 import com.example.demo.student.Entity.Grupo;
 import com.example.demo.student.Entity.Maestro;
+import com.example.demo.student.Entity.Materia;
 import com.example.demo.student.Entity.Student;
+import com.example.demo.student.Repository.MaestroRepository;
+import com.example.demo.student.Repository.MateriaRepository;
+import com.example.demo.student.Service.GrupoService;
 import com.example.demo.student.Service.MaestroService;
 import com.example.demo.student.Service.StudentService;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.chrono.IsoEra;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,11 +33,25 @@ public class MaestroController {
     private MaestroService maestroService;
 
     @Autowired
+    private MaestroRepository maestroRepository;
+
+    @Autowired
     private StudentService studentService;
+
+    @Autowired
+    private GrupoService grupoService;
+
+    @Autowired
+    private MateriaRepository materiaRepository;
 
     @GetMapping
     public List<Maestro> getTeachers() {
         return maestroService.findAll();
+    }
+
+    @GetMapping(path = "/listgrupos")
+    public List<Grupo> getGrupos(){
+        return grupoService.findAll();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -45,6 +65,7 @@ public class MaestroController {
                 .status(HttpStatus.CREATED)
                 .body(maestroService.save(maestro));
     }
+
 
     @PostMapping(path = "/register", consumes = {"application/xml", "application/json",
             "application/x-www-form-url-urlencoded"})
@@ -83,6 +104,25 @@ public class MaestroController {
             return ResponseEntity.status(HttpStatus.CREATED).body(maestroOptional.orElseThrow());
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/creargrupo/maestro/{idMaestro}/materia/{idMateria}")
+    public ResponseEntity<?> crearGrupo(@Valid @PathVariable("idMaestro")Long idMaestro,
+                                        @PathVariable("idMateria") Long idMateria,
+                                        BindingResult result){
+        Optional<Maestro> maestroOptional = maestroRepository.findById(idMaestro);
+        Optional<Materia> materiaOptional = materiaRepository.findById(idMateria);
+        if (result.hasFieldErrors()){
+            return validation(result);
+        }
+        Maestro teacher = maestroOptional.orElseThrow();
+        Materia materia = materiaOptional.orElseThrow();
+        Grupo newgrupo = new Grupo();
+        newgrupo.setTeacher(teacher);
+        newgrupo.setMateria(materia);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(grupoService.save(newgrupo));
     }
 
     private ResponseEntity<?> validation(BindingResult result){

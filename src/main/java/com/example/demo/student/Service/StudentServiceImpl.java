@@ -42,10 +42,11 @@ public class StudentServiceImpl implements StudentService {
     @Transactional
     public Student save(Student student) {
         Optional<Role> optionalRoleStudent = roleRepository.findByName("ROLE_USER");
+        Role rol = optionalRoleStudent.orElseThrow();
        // List<Role> roles = new ArrayList<>();
        // optionalRoleStudent.ifPresent(roles::add);
        // student.setRoles(roles);
-        student.setRol(optionalRoleStudent.orElseThrow());
+        student.setRol(rol);
         student.setPassword(passwordEncoder.encode(student.getPassword()));
         return studentRepository.save(student);
     }

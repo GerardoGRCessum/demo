@@ -2,6 +2,7 @@ package com.example.demo.student.Controller;
 
 import com.example.demo.student.Entity.Grupo;
 import com.example.demo.student.Entity.Student;
+import com.example.demo.student.Service.GrupoService;
 import com.example.demo.student.Service.StudentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -31,6 +32,8 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
+    @Autowired
+    private GrupoService grupoService;
     /*@Autowired
     AuthenticationManager authenticationManager;
     ------SOLO ACTIVAR PARA PRUEBAS DE AUTO LOGIN DESPUES DE REGISTER------
@@ -44,6 +47,11 @@ public class StudentController {
     @GetMapping
     public List<Student> getStudents() {
         return studentService.findAll();
+    }
+
+    @GetMapping(path = "/listgrupos")
+    public List<Grupo> getGrupos(){
+        return grupoService.findAll();
     }
 
     @PreAuthorize("hasRole('TEACHER')")

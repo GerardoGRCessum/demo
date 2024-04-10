@@ -51,15 +51,17 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests((authz) -> authz
                         //maestro ->
                         .requestMatchers(HttpMethod.GET, "api/v1/teacher").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/v1/teacher/listgrupos").permitAll()
                         .requestMatchers(HttpMethod.POST, "api/v1/teacher/register").permitAll()
                         .requestMatchers(HttpMethod.PUT, "api/v1/teacher/{id}").permitAll()
                         .requestMatchers(HttpMethod.PUT, "api/v1/teacher/{id}/grupo/{idGrupo}").permitAll()
+                        .requestMatchers(HttpMethod.POST, "api/v1/teacher/creargrupo/maestro/{idMaestro}/materia/{idMateria}").permitAll()
                         //estudiante ->
                         .requestMatchers(HttpMethod.GET, "/api/v1/student").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/student/listgrupos").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/student/register").permitAll()
                         .requestMatchers(HttpMethod.PUT, "api/v1/student/{id}").permitAll()
                         .requestMatchers(HttpMethod.PUT, "api/v1/student/{Id}/grupo/{idGrupo}").permitAll()
-
                         .anyRequest().authenticated())
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
                 .addFilter(new JwtValidationFilter(authenticationManager()))

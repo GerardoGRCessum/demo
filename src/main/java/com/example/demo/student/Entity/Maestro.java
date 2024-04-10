@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -16,15 +17,14 @@ import java.util.Set;
 @EnableAutoConfiguration
 @Table(name = "teachers")
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode(exclude = {"roles", "grupos"})
 public class Maestro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ToString.Exclude
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Long id;
 
     @Column(name = "username")
@@ -47,6 +47,7 @@ public class Maestro {
 
 
     @JsonIgnoreProperties(value = {"personas", "students", "handler", "hibernateLazyInitializer"})
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToMany
     @JoinTable(
             name = "teachers_roles",
@@ -57,7 +58,11 @@ public class Maestro {
     @ToString.Exclude
     private List<Role> roles;
 
+    public Maestro(){
+        roles = new ArrayList<>();
 
+
+    }
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "enable")
@@ -72,4 +77,17 @@ public class Maestro {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean admin;
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Maestro maestro = (Maestro) o;
+        return Objects.equals(id, maestro.id) && Objects.equals(username, maestro.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username);
+    }
 }

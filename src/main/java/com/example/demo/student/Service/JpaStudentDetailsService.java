@@ -13,8 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,19 +33,18 @@ public class JpaStudentDetailsService implements UserDetailsService {
         }
         //problema de roles y login por RESOLVER---------------------------
         Student student = studentOptional.orElseThrow();
-        List<Role> roles = null;
-        roles.add(student.getRol());
-        List<GrantedAuthority> authz = roles.stream()
+        List<Role> rols = new ArrayList<>();
+        rols.add(student.getRol());
+        List<GrantedAuthority> authz = rols
+                .stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
-
  /*       List<GrantedAuthority> authorities = student.getRoles()
                 .stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());*/
 
 
-//        authz.stream().map(role -> new SimpleGrantedAuthority())
         return new User(
                 student.getUsername(),
                 student.getPassword(),

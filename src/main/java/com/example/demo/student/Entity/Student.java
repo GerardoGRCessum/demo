@@ -16,7 +16,6 @@ import java.util.Set;
 @EnableAutoConfiguration
 @Table(name = "users")
 @AllArgsConstructor
-@NoArgsConstructor
 @ToString
 @Getter
 @Setter
@@ -24,13 +23,13 @@ public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ToString.Exclude
     private Long id;
 
     @Column(unique = true)
     @NotBlank
     @Size(min = 4, max = 45)
     private String username;
+
     private String email;
 
     @NotBlank
@@ -40,9 +39,13 @@ public class Student {
     @JsonIgnoreProperties({"personas", "students", "users", "id_roles", "rol", "teacher", "handler", "hibernateLazyInitializer"})
     @ManyToOne
     @JoinColumn(name = "id_roles")
-    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Role rol;
+    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 
+    public Student(){
+        rol = new Role();
+    }
 
     @JsonIgnoreProperties({"maestros", "personas", "students", "rol", "id_roles", "handler", "roles", "hibernateLazyInitializer"})
     @ManyToMany(fetch = FetchType.LAZY,
@@ -57,7 +60,6 @@ public class Student {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "clase_id")
     )
-    //private List<Grupo> grupos;
     private Set<Grupo> grupos;
 
 
