@@ -107,14 +107,10 @@ public class MaestroController {
     }
 
     @PostMapping("/creargrupo/maestro/{idMaestro}/materia/{idMateria}")
-    public ResponseEntity<?> crearGrupo(@Valid @PathVariable("idMaestro")Long idMaestro,
-                                        @PathVariable("idMateria") Long idMateria,
-                                        BindingResult result){
+    public ResponseEntity<Grupo> crearGrupo(@Valid @PathVariable("idMaestro")Long idMaestro,
+                                        @PathVariable("idMateria") Long idMateria){
         Optional<Maestro> maestroOptional = maestroRepository.findById(idMaestro);
         Optional<Materia> materiaOptional = materiaRepository.findById(idMateria);
-        if (result.hasFieldErrors()){
-            return validation(result);
-        }
         Maestro teacher = maestroOptional.orElseThrow();
         Materia materia = materiaOptional.orElseThrow();
         Grupo newgrupo = new Grupo();
