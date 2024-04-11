@@ -2,9 +2,13 @@ package com.example.demo.student.Service;
 
 import com.example.demo.student.Entity.Grupo;
 import com.example.demo.student.Entity.Maestro;
+import com.example.demo.student.Entity.Materia;
 import com.example.demo.student.Repository.GrupoRepository;
 import com.example.demo.student.Repository.MaestroRepository;
+import com.example.demo.student.Repository.MateriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +22,9 @@ public class GrupoServiceImpl implements GrupoService {
 
     @Autowired
     MaestroRepository maestroRepository;
+
+    @Autowired
+    MateriaRepository materiaRepository;
 
     @Override
     public Optional<Grupo> findById(Long id) {
@@ -33,5 +40,17 @@ public class GrupoServiceImpl implements GrupoService {
     @Override
     public Grupo save(Grupo grupo) {
         return grupoRepository.save(grupo);
+    }
+
+    @Override
+    public Optional<Grupo> crearGrupo(Long idMaestro, Long idMateria) {
+        Optional<Maestro> maestroOptional = maestroRepository.findById(idMaestro);
+        Optional<Materia> materiaOptional = materiaRepository.findById(idMateria);
+        Maestro teacher = maestroOptional.orElseThrow();
+        Materia materia = materiaOptional.orElseThrow();
+        Grupo grupodb = new Grupo();
+        grupodb.setTeacher(teacher);
+        grupodb.setMateria(materia);
+        return Optional.of(grupoRepository.save(grupodb));
     }
 }

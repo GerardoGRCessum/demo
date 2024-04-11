@@ -14,4 +14,6 @@ public interface GrupoService {
     List<Grupo> findAll();
 
     Grupo save(Grupo grupo);
+
+    Optional<Grupo> crearGrupo(Long idMaestro, Long idMateria);
 }

@@ -54,6 +54,7 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.GET, "api/v1/teacher/listgrupos").permitAll()
                         .requestMatchers(HttpMethod.POST, "api/v1/teacher/register").permitAll()
                         .requestMatchers(HttpMethod.PUT, "api/v1/teacher/{id}").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "api/v1/teacher/desactivar/{idMaestro}").permitAll()
                         .requestMatchers(HttpMethod.PUT, "api/v1/teacher/{id}/grupo/{idGrupo}").permitAll()
                         .requestMatchers(HttpMethod.POST, "api/v1/teacher/creargrupo/maestro/{idMaestro}/materia/{idMateria}").permitAll()
                         //estudiante ->

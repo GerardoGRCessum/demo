@@ -21,4 +21,7 @@ public interface StudentService {
     Optional<Student> delete(Long id);
 
     Optional<Student> asignarClase(Long idStudent, Long idClase);
+
+    Optional<Student> desactivarStudent(Long idStudent);
+
 }

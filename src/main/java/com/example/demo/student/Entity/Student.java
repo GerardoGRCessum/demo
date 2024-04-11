@@ -40,6 +40,7 @@ public class Student {
     @ManyToOne
     @JoinColumn(name = "id_roles")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ToString.Exclude
     private Role rol;
     //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 

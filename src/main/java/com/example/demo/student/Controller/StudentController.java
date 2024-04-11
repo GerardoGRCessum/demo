@@ -74,12 +74,12 @@ public class StudentController {
 
 
 
-    @PreAuthorize("hasRoles('ADMIN')")
-    @DeleteMapping(path = "/{studentId}")
-    public ResponseEntity<?> deleteStudent(@PathVariable("studentId") Long studentId) {
-        Optional<Student> studentOptional = studentService.delete(studentId);
-        if (studentOptional.isPresent()) {
-            return ResponseEntity.ok(studentOptional.orElseThrow());
+   // @PreAuthorize("hasRoles('ADMIN')")
+    @PutMapping(path = "/{studentId}")
+    public ResponseEntity<?> desactivarStudent(@PathVariable("studentId") Long studentId) {
+        Optional<Student> studentOptional = studentService.desactivarStudent(studentId);
+        if (studentOptional.isPresent()){
+            return ResponseEntity.status(HttpStatus.CREATED).body(studentOptional.orElseThrow());
         }
         return ResponseEntity.notFound().build();
     }

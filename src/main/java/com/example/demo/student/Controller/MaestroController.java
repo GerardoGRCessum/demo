@@ -97,6 +97,15 @@ public class MaestroController {
         return ResponseEntity.notFound().build();
     }
 
+    @PutMapping(path = "/desactivar/{idMaestro}")
+    public ResponseEntity<?> desactivarMaestro(@PathVariable("idMaestro") Long idMaestro){
+        Optional<Maestro>  maestroOptional = maestroService.desactivarMaestro(idMaestro);
+        if(maestroOptional.isPresent()){
+            return ResponseEntity.status(HttpStatus.CREATED).body(maestroOptional.orElseThrow());
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     @PutMapping("/{id}/grupo/{grupoId}")
     public ResponseEntity<Maestro> maestroAGrupo(@PathVariable("id") Long id, @PathVariable("grupoId") Long grupoId){
         Optional<Maestro> maestroOptional = maestroService.asignarGrupo(id, grupoId);
@@ -109,16 +118,8 @@ public class MaestroController {
     @PostMapping("/creargrupo/maestro/{idMaestro}/materia/{idMateria}")
     public ResponseEntity<Grupo> crearGrupo(@Valid @PathVariable("idMaestro")Long idMaestro,
                                         @PathVariable("idMateria") Long idMateria){
-        Optional<Maestro> maestroOptional = maestroRepository.findById(idMaestro);
-        Optional<Materia> materiaOptional = materiaRepository.findById(idMateria);
-        Maestro teacher = maestroOptional.orElseThrow();
-        Materia materia = materiaOptional.orElseThrow();
-        Grupo newgrupo = new Grupo();
-        newgrupo.setTeacher(teacher);
-        newgrupo.setMateria(materia);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(grupoService.save(newgrupo));
+        Optional<Grupo> grupoOptional = grupoService.crearGrupo(idMaestro, idMateria);
+        return ResponseEntity.status(HttpStatus.CREATED).body(grupoOptional.orElseThrow());
     }
 
     private ResponseEntity<?> validation(BindingResult result){

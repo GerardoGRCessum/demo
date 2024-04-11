@@ -107,4 +107,15 @@ public class StudentServiceImpl implements StudentService {
         }
         return studentOptional;
     }
+
+    @Override
+    public Optional<Student> desactivarStudent(Long idStudent){
+        Optional<Student> studentOptional = studentRepository.findById(idStudent);
+        if (studentOptional.isPresent()){
+            Student studb = studentOptional.orElseThrow();
+            studb.setEnable(false);
+            return Optional.of(studentRepository.save(studb));
+        }
+        return studentOptional;
+    }
 }

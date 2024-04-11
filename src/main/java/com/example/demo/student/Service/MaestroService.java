@@ -18,4 +18,6 @@ public interface MaestroService {
 
     Optional<Maestro> asignarGrupo(Long idMaestro, Long idClase);
 
+    Optional<Maestro> desactivarMaestro(Long idMaestro);
+
 }
