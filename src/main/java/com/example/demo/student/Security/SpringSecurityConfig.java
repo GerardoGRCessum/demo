@@ -4,6 +4,7 @@ import com.example.demo.student.Security.Filter.JwtAuthenticationFilter;
 import com.example.demo.student.Security.Filter.JwtAuthenticationFilterTeacher;
 import com.example.demo.student.Security.Filter.JwtValidationFilter;
 import com.example.demo.student.Security.Filter.JwtValidationFilterTeacher;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -49,6 +50,9 @@ public class SpringSecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests((authz) -> authz
+                        //materia ->
+                        .requestMatchers(HttpMethod.GET, "api/v1/materia").permitAll()
+                        .requestMatchers(HttpMethod.POST, "api/v1/materia/crearmateria").permitAll()
                         //maestro ->
                         .requestMatchers(HttpMethod.GET, "api/v1/teacher").permitAll()
                         .requestMatchers(HttpMethod.GET, "api/v1/teacher/listgrupos").permitAll()

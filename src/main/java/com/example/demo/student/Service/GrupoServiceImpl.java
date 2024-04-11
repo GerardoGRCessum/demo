@@ -7,8 +7,6 @@ import com.example.demo.student.Repository.GrupoRepository;
 import com.example.demo.student.Repository.MaestroRepository;
 import com.example.demo.student.Repository.MateriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
