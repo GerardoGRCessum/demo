@@ -2,8 +2,6 @@ package com.example.demo.student.Controller;
 
 import com.example.demo.student.Entity.Grupo;
 import com.example.demo.student.Entity.Maestro;
-import com.example.demo.student.Entity.Materia;
-import com.example.demo.student.Entity.Student;
 import com.example.demo.student.Repository.MaestroRepository;
 import com.example.demo.student.Repository.MateriaRepository;
 import com.example.demo.student.Service.GrupoService;
@@ -18,7 +16,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.chrono.IsoEra;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,20 +47,27 @@ public class MaestroController {
     }
 
     @GetMapping(path = "/listgrupos")
-    public List<Grupo> getGrupos(){
+    public List<Grupo> getGrupos() {
         return grupoService.findAll();
+    }
+
+    @GetMapping(path = "/activos")
+    public List<Maestro> getActivosMaestro(){
+         return maestroRepository.findAllByEnableTrue();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody Maestro maestro,
-                                    BindingResult result) {
+    public ResponseEntity<?> create(@Valid @RequestBody Maestro maestro, BindingResult result) {
         if (result.hasFieldErrors()) {
             return validation(result);
         }
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(maestroService.save(maestro));
+        if (validarEmail(maestro.getEmail())) {
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(maestroService.save(maestro));
+        }
+        return ResponseEntity.badRequest().build();
     }
 
 
@@ -72,7 +76,6 @@ public class MaestroController {
     public ResponseEntity<?> register(@Valid @RequestBody Maestro maestro,
                                       BindingResult result) {
         maestro.setAdmin(false);
-
         return create(maestro, result);
     }
 
@@ -88,51 +91,61 @@ public class MaestroController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(path = "/{teacherId}")
-    public ResponseEntity<?> update(@Valid @RequestBody Maestro maestro, BindingResult  result,
+    public ResponseEntity<?> update(@Valid @RequestBody Maestro maestro, BindingResult result,
                                     @PathVariable Long teacherId) {
         Optional<Maestro> maestroOptional = maestroService.update(teacherId, maestro);
-        if (result.hasFieldErrors()){
+        if (result.hasFieldErrors()) {
             return ResponseEntity.status(HttpStatus.CREATED).body(maestroOptional.orElseThrow());
         }
         return ResponseEntity.notFound().build();
     }
 
     @PutMapping(path = "/desactivar/{idMaestro}")
-    public ResponseEntity<?> desactivarMaestro(@PathVariable("idMaestro") Long idMaestro){
-        Optional<Maestro>  maestroOptional = maestroService.desactivarMaestro(idMaestro);
-        if(maestroOptional.isPresent()){
+    public ResponseEntity<?> desactivarMaestro(@PathVariable("idMaestro") Long idMaestro) {
+        Optional<Maestro> maestroOptional = maestroService.desactivarMaestro(idMaestro);
+        if (maestroOptional.isPresent() && maestroOptional.get().isEnable()) {
             return ResponseEntity.status(HttpStatus.CREATED).body(maestroOptional.orElseThrow());
         }
         return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{id}/grupo/{grupoId}")
-    public ResponseEntity<Maestro> maestroAGrupo(@PathVariable("id") Long id, @PathVariable("grupoId") Long grupoId){
+    public ResponseEntity<Maestro> maestroAGrupo(@PathVariable("id") Long id, @PathVariable("grupoId") Long grupoId) {
         Optional<Maestro> maestroOptional = maestroService.asignarGrupo(id, grupoId);
-        if (maestroOptional.isPresent()){
+        if (maestroOptional.isPresent() && maestroOptional.get().isEnable()) {
             return ResponseEntity.status(HttpStatus.CREATED).body(maestroOptional.orElseThrow());
         }
         return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/creargrupo/maestro/{idMaestro}/materia/{idMateria}")
-    public ResponseEntity<Grupo> crearGrupo(@Valid @PathVariable("idMaestro")Long idMaestro,
-                                        @PathVariable("idMateria") Long idMateria){
+    public ResponseEntity<Grupo> crearGrupo(@Valid @PathVariable("idMaestro") Long idMaestro,
+                                            @PathVariable("idMateria") Long idMateria) {
         Optional<Grupo> grupoOptional = grupoService.crearGrupo(idMaestro, idMateria);
-        return ResponseEntity.status(HttpStatus.CREATED).body(grupoOptional.orElseThrow());
+        Optional<Maestro> maestroOptional = maestroRepository.findById(idMaestro);
+        if (maestroOptional.isPresent() && maestroOptional.get().isEnable()) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(grupoOptional.orElseThrow());
+        }
+        return ResponseEntity.notFound().build();
     }
 
-    private ResponseEntity<?> validation(BindingResult result){
+    private ResponseEntity<?> validation(BindingResult result) {
         Map<String, String> errors = new HashMap<>();
 
         result.getFieldErrors().forEach(err -> {
             errors.put(err.getField(), "El campo" + err.getField() + " "
-            + err.getDefaultMessage());
+                    + err.getDefaultMessage());
         });
         return ResponseEntity.badRequest().body(errors);
     }
 
     //------------------------------------------------------------
+    private boolean validarEmail(String email) {
+        String regexPattern = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        return email.matches(regexPattern);
+    }
+
+
 }
 
 

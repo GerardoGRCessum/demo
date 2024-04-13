@@ -55,6 +55,7 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "api/v1/materia/crearmateria").permitAll()
                         //maestro ->
                         .requestMatchers(HttpMethod.GET, "api/v1/teacher").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/v1/teacher/activos").permitAll()
                         .requestMatchers(HttpMethod.GET, "api/v1/teacher/listgrupos").permitAll()
                         .requestMatchers(HttpMethod.POST, "api/v1/teacher/register").permitAll()
                         .requestMatchers(HttpMethod.PUT, "api/v1/teacher/{id}").permitAll()
@@ -67,6 +68,7 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/student/register").permitAll()
                         .requestMatchers(HttpMethod.PUT, "api/v1/student/{id}").permitAll()
                         .requestMatchers(HttpMethod.PUT, "api/v1/student/{Id}/grupo/{idGrupo}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/v1/student/activos").permitAll()
                         .anyRequest().authenticated())
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
                 .addFilter(new JwtValidationFilter(authenticationManager()))

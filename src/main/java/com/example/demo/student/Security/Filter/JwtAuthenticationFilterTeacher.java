@@ -27,7 +27,7 @@ import java.util.Map;
 import static com.example.demo.student.Security.TokenJwtConfig.*;
 
 public class JwtAuthenticationFilterTeacher extends UsernamePasswordAuthenticationFilter {
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
     public JwtAuthenticationFilterTeacher(AuthenticationManager authManager) {
         this.authenticationManager = authManager;
