@@ -90,7 +90,7 @@ public class StudentController {
 
 
     //@PreAuthorize("hasRole('TEACHER')")
-    @PutMapping("/{Id}/grupo/{grupoId}")
+    @PutMapping("/{Id}/grupo/{grupoId}")//METODO PARA ASIGNAR ESTUDIANTE A GRUPO
     public ResponseEntity<Student> EstudianteAGrupo(@PathVariable("Id") Long Id, @PathVariable("grupoId") Long grupoId) {
         Optional<Student> studentOptional = studentService.asignarClase(Id, grupoId);
         if (studentOptional.isPresent() && studentOptional.get().isEnable()) {

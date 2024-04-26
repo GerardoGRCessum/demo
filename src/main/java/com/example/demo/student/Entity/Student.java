@@ -39,12 +39,12 @@ public class Student {
     @JsonIgnoreProperties({"personas", "students", "users", "id_roles", "rol", "teacher", "handler", "hibernateLazyInitializer"})
     @ManyToOne
     @JoinColumn(name = "id_roles")
-    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Role rol;
     //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 
     public Student(){
-        rol = new Role();
+
     }
 
     @JsonIgnoreProperties({"maestros", "personas", "students", "rol", "id_roles", "handler", "roles", "hibernateLazyInitializer"})

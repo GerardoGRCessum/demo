@@ -29,12 +29,12 @@ public class Role {
     private String name;
 
 
-    /*@JsonIgnoreProperties(value = {"rol", "users", "roles", "students","handler", "hibernateLazyInitializer"})
+    @JsonIgnoreProperties(value = {"rol", "users", "roles", "students","handler", "hibernateLazyInitializer"})
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "rol",
             cascade = CascadeType.REMOVE)
     @ToString.Exclude
-    private List<Student> students;*/
+    private List<Student> students;
 
 
 
